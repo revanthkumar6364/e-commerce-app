@@ -1,0 +1,251 @@
+/* --- NAVBAR 2.0 (Full Width / Myntra Style) --- */
+
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    font-family: var(--font-display);
+}
+
+.navbar-content {
+    max-width: 100%;
+    padding: 0 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 1. Left (Logo + Links) */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    font-size: 14px;
+    font-weight: 700;
+    color: #282c3f;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 28px;
+    /* For alignment and border-bottom hover */
+    padding-top: 30px;
+    border-bottom: 4px solid transparent;
+    transition: all 0.2s;
+}
+
+.nav-links a:hover {
+    border-bottom-color: var(--primary);
+    /* Pink Underline on Hover */
+}
+
+.nav-item-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+/* 2. Center (Search) */
+.nav-search-container {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 40px;
+}
+
+.nav-search-box {
+    display: flex;
+    align-items: center;
+    background: #f5f5f6;
+    border-radius: 4px;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.nav-search-box.focused {
+    background: #fff;
+    border-color: #eaeaec;
+}
+
+.nav-search-box input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #696e79;
+    margin-left: 10px;
+}
+
+.nav-search-box input:focus {
+    outline: none;
+}
+
+.search-icon {
+    color: #282c3f;
+    opacity: 0.5;
+}
+
+/* 3. Right (Actions) */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.action-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 4px;
+}
+
+.action-link:hover {
+    color: var(--primary);
+    /* Pink Icon Hover */
+}
+
+.nav-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-action-item .action-link {
+    position: relative;
+}
+
+/* Concierge Trigger */
+.nav-concierge-trigger {
+    background: linear-gradient(135deg, #ff3f6c 0%, #ff6b6b 100%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(255, 63, 108, 0.4);
+    transition: transform 0.2s;
+}
+
+.nav-concierge-trigger:hover {
+    transform: scale(1.1);
+}
+
+/* Response */
+@media (max-width: 1024px) {
+
+    .nav-links,
+    .nav-search-container {
+        display: none;
+    }
+
+    .navbar-content {
+        justify-content: space-between;
+    }
+}
+
+/* --- MEGA MENU STYLES --- */
+.mega-menu-container {
+    position: fixed;
+    top: 80px;
+    /* Below Navbar */
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #eaeaec;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    z-index: 999;
+    padding: 20px 40px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mega-menu-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mega-menu-column {
+    flex: 1;
+    padding: 0 15px;
+}
+
+.mega-menu-heading {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff3f6c;
+    /* Myntra Pink */
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.mega-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mega-menu-list li {
+    margin-bottom: 6px;
+}
+
+.mega-menu-link {
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.1s;
+    display: block;
+}
+
+.mega-menu-link:hover {
+    color: #000;
+    font-weight: 600;
+}

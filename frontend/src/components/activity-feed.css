@@ -1,0 +1,78 @@
+/* Activity Feed Toast */
+.activity-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: rgba(10, 11, 14, 0.95);
+    /* Deep Black */
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--accent-blue);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    max-width: 350px;
+    animation: slideUpFade 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    /* Let clicks pass through if needed, or set to auto */
+}
+
+.activity-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.activity-info {
+    font-family: 'Montserrat', sans-serif;
+    /* Premium Font */
+}
+
+.activity-text {
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0;
+}
+
+.gold-text {
+    color: var(--accent-blue);
+    font-weight: 700;
+}
+
+.activity-item {
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 600;
+    margin: 2px 0;
+}
+
+.activity-time {
+    font-size: 0.65rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

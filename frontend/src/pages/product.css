@@ -1,0 +1,414 @@
+/* Cinematic Product Page Styles */
+.cinematic-product-page {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  background: var(--bg);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text);
+}
+
+/* --- Left: Immersive Gallery --- */
+.cinematic-gallery {
+  background: var(--card);
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.gallery-scroll-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* Seamless flow */
+}
+
+.cinema-hero-img,
+.cinema-detail-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.cinema-hero-img {
+  height: 100vh;
+}
+
+.cinema-detail-img {
+  height: 80vh;
+}
+
+.floating-action-badges {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+.badge-luxury {
+  background: var(--text);
+  color: var(--bg);
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  backdrop-filter: blur(10px);
+}
+
+/* --- Right: Sticky Details --- */
+.product-sticky-panel {
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+}
+
+.panel-content {
+  padding: 80px 10%;
+  width: 100%;
+  max-width: 600px;
+}
+
+.breadcrumbs-minimal {
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+}
+
+.breadcrumbs-minimal a {
+  color: #999;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.breadcrumbs-minimal a:hover {
+  color: var(--accent);
+}
+
+.cinema-title {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.cinema-price {
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 30px;
+}
+
+.cinema-desc {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 40px;
+  font-size: 1rem;
+}
+
+/* AI View Button */
+.ai-view-btn {
+  background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+  border: 1px solid #ddd;
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: var(--shadow-sm);
+}
+
+.ai-view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
+}
+
+/* Selectors */
+.selector-grid {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.selector-group label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.color-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.c-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.c-dot.active {
+  transform: scale(1.2);
+  border-color: #000;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+}
+
+.size-text-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.s-text-btn {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.s-text-btn.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Action Stack */
+.action-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 50px;
+}
+
+.add-bag-btn {
+  background: var(--accent);
+  color: var(--bg);
+  border: 1px solid var(--accent);
+  padding: 20px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-bag-btn:hover {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.secondary-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-action {
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Accordion */
+.accordion-info details {
+  border-top: 1px solid #eee;
+  padding: 20px 0;
+}
+
+.accordion-info summary {
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion-info summary::after {
+  content: '+';
+  font-size: 1.2rem;
+}
+
+.accordion-info details[open] summary::after {
+  content: '-';
+}
+
+.accordion-info p {
+  margin-top: 15px;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .cinematic-product-page {
+    grid-template-columns: 1fr;
+  }
+
+  .product-sticky-panel {
+    height: auto;
+    position: relative;
+  }
+
+  .cinema-hero-img {
+    height: 60vh;
+  }
+
+  .cinema-detail-img {
+    display: none;
+    /* Hide extra scroll images on mobile for compactness */
+  }
+
+  .floating-action-badges {
+    position: absolute;
+  }
+}
+
+/* --- Review Section --- */
+.product-reviews-section {
+  background: var(--bg);
+  padding: 80px 10%;
+  border-top: 1px solid var(--border);
+}
+
+.reviews-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.reviews-header h2 {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.overall-rating {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.reviews-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 60px;
+}
+
+.review-card {
+  padding: 30px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.reviewer-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.review-stars {
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.review-comment {
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.review-date {
+  font-size: 0.7rem;
+  color: #999;
+}
+
+.add-review-panel {
+  background: var(--card);
+  padding: 40px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.add-review-panel h3 {
+  font-size: 1rem;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+
+.add-review-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-review-panel input,
+.add-review-panel select,
+.add-review-panel textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.submit-rev-btn {
+  background: var(--accent);
+  color: var(--bg);
+  border: 1px solid var(--accent);
+  padding: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-rev-btn:hover {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .reviews-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .product-reviews-section {
+    padding: 40px 5%;
+  }
+}

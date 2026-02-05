@@ -1,0 +1,205 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.logo-container:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+.logo-container:hover .logo-svg {
+  filter: drop-shadow(0 8px 16px rgba(255, 63, 108, 0.25));
+}
+
+.logo-svg {
+  width: 280px;
+  height: 70px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+  transition: filter 0.3s ease;
+}
+
+/* Icon Animations */
+.logo-icon {
+  transition: transform 0.3s ease;
+}
+
+.logo-container:hover .logo-icon {
+  transform: scale(1.05);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.pulse-circle {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.bag-body {
+  transition: all 0.3s ease;
+}
+
+.logo-container:hover .bag-body {
+  filter: brightness(1.1);
+}
+
+.bag-handle {
+  animation: swing 2s ease-in-out infinite;
+  transform-origin: center top;
+}
+
+@keyframes swing {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-2deg);
+  }
+
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+.star-sparkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(180deg);
+  }
+}
+
+/* Text Animations */
+.logo-text-group {
+  transition: all 0.3s ease;
+}
+
+.text-vibe {
+  animation: gradient-shift 4s ease infinite;
+}
+
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    fill: url(#premiumGradient);
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.tagline {
+  animation: fadeInOut 3s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.shimmer-overlay {
+  pointer-events: none;
+}
+
+/* Hover Effects for Text */
+.logo-container:hover .text-vibe {
+  filter: drop-shadow(0 0 8px rgba(255, 63, 108, 0.6));
+}
+
+/* Premium Badge Animation */
+.logo-container:hover g[transform*="240, 18"] circle:last-of-type {
+  animation: rotate-badge 2s linear infinite;
+}
+
+@keyframes rotate-badge {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .logo-svg {
+    width: 180px;
+    height: 50px;
+  }
+
+  .logo-container {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-svg {
+    width: 140px;
+    height: 40px;
+  }
+}
+
+/* Premium Glow Effect on Hover */
+@keyframes premium-glow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(255, 63, 108, 0.3)) drop-shadow(0 0 10px rgba(255, 144, 90, 0.2));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px rgba(255, 63, 108, 0.5)) drop-shadow(0 0 20px rgba(255, 144, 90, 0.3));
+  }
+}
+
+.logo-container:hover {
+  animation: premium-glow 2s ease-in-out infinite;
+}

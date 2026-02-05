@@ -1,0 +1,152 @@
+/* Import Myntra Login styles for consistency */
+@import './Login.css';
+
+/* VerifyOTP specific overrides */
+.myntra-verify-page {
+    min-height: 100vh;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.myntra-verify-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+}
+
+.myntra-verify-form {
+    background: white;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.verify-header {
+    margin-bottom: 30px;
+}
+
+.verify-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #424553;
+    margin: 0 0 10px 0;
+}
+
+.sent-to {
+    font-size: 14px;
+    color: #94969f;
+    margin: 0;
+}
+
+.sent-to strong {
+    color: #ff3f6c;
+    font-weight: 700;
+}
+
+.otp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.otp-input-field {
+    width: 100%;
+    padding: 16px;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 8px;
+    border: 1px solid #d4d5d9;
+    border-radius: 4px;
+    color: #282c3f;
+}
+
+.otp-input-field:focus {
+    outline: none;
+    border-color: #ff3f6c;
+}
+
+.resend-wrapper {
+    display: flex;
+    justify-content: center;
+    min-height: 30px;
+    align-items: center;
+}
+
+.timer-text {
+    font-size: 13px;
+    color: #94969f;
+}
+
+.resend-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    color: #ff3f6c;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.resend-link:hover {
+    text-decoration: underline;
+}
+
+.resend-link:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.verify-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.verify-footer a {
+    color: #ff3f6c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.verify-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .myntra-verify-container {
+        grid-template-columns: 1fr;
+    }
+
+    .myntra-login-hero {
+        display: none;
+    }
+
+    .myntra-verify-form {
+        padding: 40px 20px;
+        min-height: 100vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .myntra-verify-form {
+        padding: 30px 20px;
+    }
+
+    .verify-header h2 {
+        font-size: 24px;
+    }
+
+    .otp-input-field {
+        font-size: 20px;
+        letter-spacing: 6px;
+    }
+}

@@ -1,0 +1,575 @@
+/* --- LANDING PAGE V2 (Myntra/Flipkart Style) --- */
+
+.landing-page-v2 {
+  min-height: 100vh;
+  margin-top: 80px;
+  /* Offset for fixed navbar */
+  background: #f5f5f6;
+  padding-bottom: 50px;
+}
+
+/* 1. HERO CAROUSEL */
+.hero-carousel-container {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero-slides-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hero-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-img-desktop {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+.hero-overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: #fff;
+  z-index: 2;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-overlay-content h2 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  letter-spacing: -1px;
+}
+
+.hero-overlay-content p {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.hero-cta-btn {
+  background: var(--primary);
+  color: #fff;
+  padding: 14px 40px;
+  border-radius: 4px;
+  /* E-commerce button style */
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+}
+
+.hero-cta-btn:hover {
+  background: #fff;
+  color: var(--primary);
+}
+
+/* Dots */
+.hero-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.hero-dot.active {
+  background: #fff;
+  transform: scale(1.5);
+}
+
+/* Arrows */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  color: #fff;
+  border: none;
+  width: 40px;
+  height: 60px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.hero-arrow:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.hero-arrow.left {
+  left: 0;
+}
+
+.hero-arrow.right {
+  right: 0;
+}
+
+/* 2. CATEGORY CIRCLES */
+.category-circles-section {
+  background: #fff;
+  padding: 30px 0;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.category-circles-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 20px;
+  overflow-x: auto;
+}
+
+.circle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.circle-img-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #eaeaec;
+  padding: 2px;
+  transition: all 0.3s;
+  background: #fff;
+}
+
+.circle-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.circle-item span {
+  font-size: 14px;
+  font-weight: 700;
+  color: #282c3f;
+}
+
+.circle-item:hover .circle-img-wrapper {
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+
+/* 3. CRAZY DEALS */
+.crazy-deals-section {
+  background: #fff;
+  max-width: 1400px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 4px;
+}
+
+.deals-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.deals-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deals-title h2 {
+  font-size: 24px;
+  color: #282c3f;
+}
+
+.text-orange {
+  color: var(--secondary);
+}
+
+.deals-timer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #878787;
+  font-size: 14px;
+}
+
+.timer-box {
+  background: #282c3f;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 16px;
+}
+
+.deals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.deal-card {
+  border: 1px solid #eaeaec;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.deal-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.deal-img-box {
+  width: 100%;
+  height: 250px;
+  position: relative;
+}
+
+.deal-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.deal-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+.deal-info {
+  padding: 12px;
+}
+
+.deal-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #282c3f;
+  margin-bottom: 4px;
+}
+
+.deal-info p {
+  font-size: 12px;
+  color: #535766;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 8px;
+}
+
+.deal-price {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.new-price {
+  font-weight: 700;
+  color: #282c3f;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #94969f;
+  font-size: 12px;
+}
+
+
+/* 4. OMG BRANDS */
+.brands-section {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.section-heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: #282c3f;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.brand-card {
+  background: #fff;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eaeaec;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.brand-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: #282c3f;
+}
+
+.brand-logo-area h3 {
+  font-size: 24px;
+  font-weight: 900;
+  color: #282c3f;
+  margin-bottom: 10px;
+}
+
+.brand-offer {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* 5. TRENDING SECTION */
+.trending-section {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.trending-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 20px;
+  height: 500px;
+}
+
+.trend-item {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.trend-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.trend-item:hover img {
+  transform: scale(1.05);
+}
+
+.trend-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: #fff;
+}
+
+.trend-overlay h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.trend-overlay span {
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  color: #000;
+  padding: 2px 8px;
+}
+
+
+/* 6. ECO BANNER */
+.eco-banner-section {
+  background: #ecfdf5;
+  padding: 60px 20px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.eco-content h2 {
+  color: #064e3b;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.eco-content p {
+  color: #047857;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.eco-btn {
+  background: #059669;
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .trending-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .trend-item {
+    height: 300px;
+  }
+
+  .hero-carousel-container {
+    height: 300px;
+  }
+
+  .hero-overlay-content {
+    left: 5%;
+    text-align: center;
+    width: 90%;
+  }
+
+  .hero-overlay-content h2 {
+    font-size: 2rem;
+  }
+}
+
+/* ===== CATEGORY SHOWCASE GRID (Myntra Style) ===== */
+.categories-showcase-section {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.categories-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+@media (max-width: 1024px) {
+  .categories-showcase-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .categories-showcase-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+.category-showcase-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.category-showcase-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.category-showcase-img {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  position: relative;
+}
+
+.category-showcase-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.category-showcase-card:hover .category-showcase-img img {
+  transform: scale(1.05);
+}
+
+.category-showcase-label {
+  padding: 15px;
+  text-align: center;
+  background: #fff;
+}
+
+.category-showcase-label h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #282c3f;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .category-showcase-img {
+    height: 250px;
+  }
+
+  .category-showcase-label h3 {
+    font-size: 14px;
+  }
+}
