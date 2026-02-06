@@ -32,6 +32,9 @@ import Admin from './pages/Admin';
 import ReturnPolicy from './pages/ReturnPolicy';
 import InitiateReturn from './pages/InitiateReturn';
 import Wishlist from './pages/Wishlist';
+import FAQ from './pages/FAQ';
+import Terms from './pages/Terms';
+import Cancellations from './pages/Cancellations';
 import './App.css';
 
 import Navbar from './components/Navbar';
@@ -72,6 +75,9 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/return-policy" element={<ReturnPolicy />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/cancellations" element={<Cancellations />} />
               <Route path="/initiate-return/:orderId" element={<InitiateReturn />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/register" element={<Login />} />

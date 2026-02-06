@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { couponsAndOffers } from '../data/products';
+import api from '../utils/api';
 import './wallet.css';
 
 export default function Wallet() {
@@ -18,10 +19,9 @@ export default function Wallet() {
                     return;
                 }
 
-                const response = await fetch('http://localhost:5000/user/wallet', {
+                const { data } = await api.get('/user/wallet', {
                     headers: { 'user-id': userId }
                 });
-                const data = await response.json();
                 if (data.success) {
                     setCoins(data.walletCoins);
                     setTier(data.tier);
@@ -45,23 +45,17 @@ export default function Wallet() {
 
         try {
             const userId = localStorage.getItem('userId');
-            const response = await fetch('http://localhost:5000/user/exchange', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'user-id': userId
-                }
+            const { data } = await api.post('/user/exchange', {}, {
+                headers: { 'user-id': userId }
             });
-            const data = await response.json();
 
             if (data.success) {
                 alert(`Success! Exchanged 100 coins for a 15% VIP coupon: ${data.newCoupon}`);
                 setCoins(data.walletCoins);
                 // Re-fetch or update local state
-                const walletRes = await fetch('http://localhost:5000/user/wallet', {
+                const { data: walletData } = await api.get('/user/wallet', {
                     headers: { 'user-id': userId }
                 });
-                const walletData = await walletRes.json();
                 setCoupons(walletData.coupons);
             } else {
                 alert('Exchange failed: ' + data.message);
@@ -97,9 +91,11 @@ export default function Wallet() {
                 </div>
 
                 <div className="coin-vault">
-                    <div className="vault-circle">
-                        <span className="coin-amount">{coins}</span>
-                        <span className="coin-desc">URBAN COINS</span>
+                    <div className="coin-wrapper">
+                        <div className="vault-circle">
+                            <span className="coin-amount">{coins}</span>
+                            <span className="coin-desc">URBAN COINS</span>
+                        </div>
                     </div>
                     <button className="luxury-exchange-btn" onClick={exchangeCoins}>
                         Exchange for VIP Coupon (100)

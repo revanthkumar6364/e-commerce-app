@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import api from '../utils/api';
 import './initiate-return.css';
 
 export default function InitiateReturn() {
@@ -47,12 +48,7 @@ export default function InitiateReturn() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/returns', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, orderId })
-      });
-      const data = await response.json();
+      const { data } = await api.post('/api/returns', { ...formData, orderId });
 
       if (data.success) {
         setRealReturnId(data.returnId);

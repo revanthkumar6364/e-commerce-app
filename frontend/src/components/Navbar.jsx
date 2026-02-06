@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useContext, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
@@ -12,10 +12,21 @@ export default function Navbar() {
     const { items } = useContext(CartContext);
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
-    const location = useLocation();
     const [searchFocused, setSearchFocused] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [visibleCategory, setVisibleCategory] = useState(null); // 'men', 'women', etc.
+    const closeTimeoutRef = useRef(null);
+
+    const handleNavEnter = (category) => {
+        if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+        setVisibleCategory(category);
+    };
+
+    const handleNavLeave = () => {
+        closeTimeoutRef.current = setTimeout(() => {
+            setVisibleCategory(null);
+        }, 300);
+    };
 
     const handleSearch = (e) => {
         if (e.key === 'Enter' && searchQuery.trim()) {
@@ -31,23 +42,23 @@ export default function Navbar() {
                     <Link to="/" className="nav-logo">
                         <Logo />
                     </Link>
-                    <nav className="nav-links" onMouseLeave={() => setVisibleCategory(null)}>
-                        <div className="nav-item-wrapper" onMouseEnter={() => setVisibleCategory('men')}>
+                    <nav className="nav-links" onMouseLeave={handleNavLeave}>
+                        <div className="nav-item-wrapper" onMouseEnter={() => handleNavEnter('men')}>
                             <Link to="/men" className={visibleCategory === 'men' ? 'nav-active' : ''}>MEN</Link>
                         </div>
-                        <div className="nav-item-wrapper" onMouseEnter={() => setVisibleCategory('women')}>
+                        <div className="nav-item-wrapper" onMouseEnter={() => handleNavEnter('women')}>
                             <Link to="/women" className={visibleCategory === 'women' ? 'nav-active' : ''}>WOMEN</Link>
                         </div>
-                        <div className="nav-item-wrapper" onMouseEnter={() => setVisibleCategory('kids')}>
+                        <div className="nav-item-wrapper" onMouseEnter={() => handleNavEnter('kids')}>
                             <Link to="/kids" className={visibleCategory === 'kids' ? 'nav-active' : ''}>KIDS</Link>
                         </div>
-                        <div className="nav-item-wrapper" onMouseEnter={() => setVisibleCategory('beauty')}>
+                        <div className="nav-item-wrapper" onMouseEnter={() => handleNavEnter('beauty')}>
                             <Link to="/beauty" className={visibleCategory === 'beauty' ? 'nav-active' : ''}>BEAUTY</Link>
                         </div>
-                        <div className="nav-item-wrapper" onMouseEnter={() => setVisibleCategory('home')}>
+                        <div className="nav-item-wrapper" onMouseEnter={() => handleNavEnter('home')}>
                             <Link to="/products?category=home" className={visibleCategory === 'home' ? 'nav-active' : ''}>HOME & LIVING</Link>
                         </div>
-                        <div className="nav-item-wrapper" onMouseEnter={() => setVisibleCategory(null)}>
+                        <div className="nav-item-wrapper" onMouseEnter={() => handleNavEnter(null)}>
                             <Link to="/travel">TRAVEL</Link>
                         </div>
                     </nav>
@@ -103,10 +114,15 @@ export default function Navbar() {
             </div>
 
             {/* MEGA MENU RENDER */}
-            <MegaMenu
-                data={NAV_DATA[visibleCategory]}
-                onClose={() => setVisibleCategory(null)}
-            />
+            <div
+                onMouseEnter={() => { if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current); }}
+                onMouseLeave={handleNavLeave}
+            >
+                <MegaMenu
+                    data={NAV_DATA[visibleCategory]}
+                    onClose={() => setVisibleCategory(null)}
+                />
+            </div>
         </header>
     );
 }

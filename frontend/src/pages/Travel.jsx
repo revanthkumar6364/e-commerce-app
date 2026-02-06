@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import { MapPin, Calendar, Plane, Train } from 'lucide-react';
 import { couponsAndOffers } from '../data/products';
+import api from '../utils/api';
 import './travel.css';
-import './travel-banners.css';
 
 export default function Travel() {
     const [searchParams] = useSearchParams();
@@ -22,6 +23,10 @@ export default function Travel() {
     const travelHeroImg = bookingType === 'flight'
         ? 'https://images.unsplash.com/photo-1436491865332-7a61a109c05d?q=80&w=2074&auto=format&fit=crop'
         : 'https://images.unsplash.com/photo-1474487548417-781cb714c22d?q=80&w=2070&auto=format&fit=crop';
+
+    const travelBannerImg = bookingType === 'flight'
+        ? 'https://images.unsplash.com/photo-1540339832862-437f267a0afa?q=80&w=2070&auto=format&fit=crop'
+        : 'https://images.unsplash.com/photo-1532105956626-9569c03602f6?q=80&w=2070&auto=format&fit=crop';
 
     useEffect(() => {
         const toParam = searchParams.get('to');
@@ -75,20 +80,15 @@ export default function Travel() {
         e.preventDefault();
         setIsProcessing(true);
         try {
-            const response = await fetch('http://localhost:5000/travel/book', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: passengerEmail,
-                    passenger: 'Urban Traveler',
-                    carrier: selectedTrip.carrier,
-                    code: selectedTrip.code,
-                    from: selectedTrip.from,
-                    to: selectedTrip.to,
-                    seats: selectedSeats
-                })
+            const { data } = await api.post('/travel/book', {
+                email: passengerEmail,
+                passenger: 'Urban Traveler',
+                carrier: selectedTrip.carrier,
+                code: selectedTrip.code,
+                from: selectedTrip.from,
+                to: selectedTrip.to,
+                seats: selectedSeats
             });
-            const data = await response.json();
             if (data.success) {
                 setBookingStep('ticket');
             } else {
@@ -337,23 +337,25 @@ export default function Travel() {
             </div>
 
             <div className="travel-progress-container" ref={flowSectionRef}>
-                {['search', 'seats', 'payment', 'ticket'].map((step, index) => {
+                {(() => {
                     const steps = ['search', 'seats', 'payment', 'ticket'];
-                    const currentIndex = steps.indexOf(bookingStep);
-                    const stepIndex = steps.indexOf(step);
-                    let status = 'pending';
-                    if (stepIndex < currentIndex) status = 'completed';
-                    if (stepIndex === currentIndex) status = 'active';
+                    return steps.map((step) => {
+                        const currentIndex = steps.indexOf(bookingStep);
+                        const stepIndex = steps.indexOf(step);
+                        let status = 'pending';
+                        if (stepIndex < currentIndex) status = 'completed';
+                        if (stepIndex === currentIndex) status = 'active';
 
-                    return (
-                        <div key={step} className={`progress-step ${status}`}>
-                            <div className="step-dot"></div>
-                            <span className="step-label">{step.toUpperCase()}</span>
-                        </div>
-                    );
-                })}
+                        return (
+                            <div key={step} className={`progress-step ${status}`}>
+                                <div className="step-dot"></div>
+                                <span className="step-label">{step.toUpperCase()}</span>
+                            </div>
+                        );
+                    });
+                })()}
                 <div className="progress-line-bg">
-                    <div className="progress-line-fill" style={{ width: `${(steps.indexOf(bookingStep) / 3) * 100}%` }}></div>
+                    <div className="progress-line-fill" style={{ width: `${(['search', 'seats', 'payment', 'ticket'].indexOf(bookingStep) / 3) * 100}%` }}></div>
                 </div>
             </div>
 
@@ -403,15 +405,15 @@ export default function Travel() {
                 <div className="booking-form-luxury">
                     <form className="form-flex-pro" onSubmit={handleSearch}>
                         <div className="input-group-luxury">
-                            <label>Origin</label>
+                            <label><MapPin size={14} style={{ marginRight: '6px' }} /> Origin</label>
                             <input type="text" placeholder="Departure City" required />
                         </div>
                         <div className="input-group-luxury">
-                            <label>Destination</label>
+                            <label><MapPin size={14} style={{ marginRight: '6px' }} /> Destination</label>
                             <input type="text" placeholder="Arrival City" required />
                         </div>
                         <div className="input-group-luxury">
-                            <label>Travel Date</label>
+                            <label><Calendar size={14} style={{ marginRight: '6px' }} /> Travel Date</label>
                             <input type="date" required />
                         </div>
                         <button type="submit" className="luxury-search-btn">
@@ -460,14 +462,48 @@ export default function Travel() {
                     </div>
                 )}
 
+                <section className="trending-destinations-premium">
+                    <div className="section-header-modern">
+                        <div className="header-titles">
+                            <h2>Trending Destinations</h2>
+                            <p>Hand-picked escapes for the sophisticated traveler</p>
+                        </div>
+                    </div>
+                    <div className="destinations-grid">
+                        {[
+                            { name: 'Santorini', country: 'Greece', img: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=600' },
+                            { name: 'Swiss Alps', country: 'Switzerland', img: 'https://images.unsplash.com/photo-1533602115663-71a7dd724e5a?q=80&w=600' },
+                            { name: 'Kyoto', country: 'Japan', img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600' },
+                            { name: 'Amalfi', country: 'Italy', img: 'https://images.unsplash.com/photo-1633321088390-8e1f5822650d?q=80&w=600' }
+                        ].map((dest, i) => (
+                            <div key={i} className="destination-card-rich">
+                                <div className="dest-image" style={{ backgroundImage: `url(${dest.img})` }}>
+                                    <div className="dest-overlay">
+                                        <div className="dest-info">
+                                            <h3>{dest.name}</h3>
+                                            <span>{dest.country}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
                 {/* RICH SALES BANNER (Requested) */}
                 <section className="featured-travel-banner">
-                    <div className="travel-banner-card flash-sale-banner-card">
-                        <img src="https://images.unsplash.com/photo-1540339832862-437f267a0afa?w=1200&q=80" alt="Flash Sale" />
+                    <div
+                        className="travel-banner-card flash-sale-banner-card"
+                        style={{ backgroundImage: `url(${travelBannerImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                    >
                         <div className="banner-glass-overlay sale-overlay">
                             <span className="highlight-tag sale">SPECIAL TRAVEL EVENT</span>
-                            <h2>Travel Extravaganza</h2>
-                            <p>Up to 50% extra coins on every international flight booking. Experience luxury for less.</p>
+                            <h2>{bookingType === 'flight' ? 'Flight Extravaganza' : 'Luxury Rail Escape'}</h2>
+                            <p>
+                                {bookingType === 'flight'
+                                    ? 'Up to 50% extra coins on every international flight booking. Experience luxury for less.'
+                                    : 'Get premium station lounge access and 40% extra coins on Vande Bharat bookings.'}
+                            </p>
                             <button onClick={() => navigate('/products')} className="banner-action-btn">View All Offers</button>
                         </div>
                     </div>

@@ -2,6 +2,7 @@ export const NAV_DATA = {
     men: [
         {
             heading: 'Topwear',
+            link: '/products?category=fashion&sub=Men&type=T-Shirts,Casual Shirts,Formal Shirts,Sweatshirts,Sweaters,Jackets,Blazers,Suits,Rain Jackets&title=Men\'s Topwear',
             items: [
                 { label: 'T-Shirts', link: '/products?category=fashion&sub=Men&type=T-Shirts' },
                 { label: 'Casual Shirts', link: '/products?category=fashion&sub=Men&type=Casual Shirts' },
@@ -16,6 +17,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Bottomwear',
+            link: '/products?category=fashion&sub=Men&type=Jeans,Trousers,Formal Trousers,Shorts,Track Pants&title=Men\'s Bottomwear',
             items: [
                 { label: 'Jeans', link: '/products?category=fashion&sub=Men&type=Jeans' },
                 { label: 'Casual Trousers', link: '/products?category=fashion&sub=Men&type=Trousers' },
@@ -26,6 +28,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Footwear',
+            link: '/products?category=fashion&sub=Men&type=Shoes,Sports Shoes,Formal Shoes,Sneakers,Sandals,Flip Flops,Socks&title=Men\'s Footwear',
             items: [
                 { label: 'Casual Shoes', link: '/products?category=fashion&sub=Men&type=Shoes' },
                 { label: 'Sports Shoes', link: '/products?category=fashion&sub=Men&type=Sports Shoes' },
@@ -38,6 +41,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Fashion Accessories',
+            link: '/products?category=fashion&sub=Men&type=Wallets,Belts,Ties,Caps,Fragrance,MenGrooming,Deodorants&title=Men\'s Accessories',
             items: [
                 { label: 'Wallets', link: '/products?category=fashion&sub=Men&type=Wallets' },
                 { label: 'Belts', link: '/products?category=fashion&sub=Men&type=Belts' },
@@ -52,6 +56,7 @@ export const NAV_DATA = {
     women: [
         {
             heading: 'Indian & Fusion Wear',
+            link: '/products?category=fashion&sub=Women&type=Kurtas,Tunics,Sarees,Ethnic,Leggings,Palazzos,Dress Materials&title=Women\'s Indian Wear',
             items: [
                 { label: 'Kurtas & Suits', link: '/products?category=fashion&sub=Women&type=Kurtas' },
                 { label: 'Kurtis, Tunics & Tops', link: '/products?category=fashion&sub=Women&type=Tunics' },
@@ -64,6 +69,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Western Wear',
+            link: '/products?category=fashion&sub=Women&type=Dresses,Tops,Tshirts,Jeans,Trousers,Skirts,Co-ords&title=Women\'s Western Wear',
             items: [
                 { label: 'Dresses', link: '/products?category=fashion&sub=Women&type=Dresses' },
                 { label: 'Tops', link: '/products?category=fashion&sub=Women&type=Tops' },
@@ -76,6 +82,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Footwear',
+            link: '/products?category=fashion&sub=Women&type=Flats,Casual Shoes,Heels,Boots,Sports Shoes&title=Women\'s Footwear',
             items: [
                 { label: 'Flats', link: '/products?category=fashion&sub=Women&type=Flats' },
                 { label: 'Casual Shoes', link: '/products?category=fashion&sub=Women&type=Casual Shoes' },
@@ -86,6 +93,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Beauty & Personal Care',
+            link: '/products?category=beauty&type=Makeup,Skincare,Lipstick,Fragrance&title=Beauty Collection',
             items: [
                 { label: 'Makeup', link: '/products?category=beauty&type=Makeup' },
                 { label: 'Skincare', link: '/products?category=beauty&type=Skincare' },
@@ -98,6 +106,7 @@ export const NAV_DATA = {
     kids: [
         {
             heading: 'Boys Clothing',
+            link: '/products?category=fashion&sub=Kids&type=Boys T-Shirts,Boys Shirts,Boys Shorts,Boys Jeans,Boys Trousers,Boys Sets&title=Boys Clothing',
             items: [
                 { label: 'T-Shirts', link: '/products?category=fashion&sub=Kids&type=Boys T-Shirts' },
                 { label: 'Shirts', link: '/products?category=fashion&sub=Kids&type=Boys Shirts' },
@@ -109,6 +118,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Girls Clothing',
+            link: '/products?category=fashion&sub=Kids&type=Girls Dresses,Girls Tops,Girls Tshirts,Girls Sets,Lehenga&title=Girls Clothing',
             items: [
                 { label: 'Dresses', link: '/products?category=fashion&sub=Kids&type=Girls Dresses' },
                 { label: 'Tops', link: '/products?category=fashion&sub=Kids&type=Girls Tops' },
@@ -119,6 +129,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Footwear',
+            link: '/products?category=fashion&sub=Kids&type=Kids Shoes,Kids Sports Shoes,School Shoes,Kids Flip Flops&title=Kids Footwear',
             items: [
                 { label: 'Casual Shoes', link: '/products?category=fashion&sub=Kids&type=Kids Shoes' },
                 { label: 'Sports Shoes', link: '/products?category=fashion&sub=Kids&type=Kids Sports Shoes' },
@@ -128,6 +139,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Toys',
+            link: '/products?category=fashion&sub=Kids&type=Learning Toys,Activity Toys,Soft Toys,Action Figures&title=Toys & Games',
             items: [
                 { label: 'Learning & Development', link: '/products?category=fashion&sub=Kids&type=Learning Toys' },
                 { label: 'Activity Toys', link: '/products?category=fashion&sub=Kids&type=Activity Toys' },
@@ -139,6 +151,7 @@ export const NAV_DATA = {
     beauty: [
         {
             heading: 'Makeup',
+            link: '/products?category=beauty&type=Lipstick,Lip Gloss,Mascara,Eyeliner,Kajal,Foundation&title=Makeup Collection',
             items: [
                 { label: 'Lipstick', link: '/products?category=beauty&type=Lipstick' },
                 { label: 'Lip Gloss', link: '/products?category=beauty&type=Lip Gloss' },
@@ -150,6 +163,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Skincare, Bath & Body',
+            link: '/products?category=beauty&type=Moisturiser,Cleanser,Masks,Sunscreen,Serum,Face Wash&title=Skincare & Body',
             items: [
                 { label: 'Face Moisturiser', link: '/products?category=beauty&type=Moisturiser' },
                 { label: 'Cleanser', link: '/products?category=beauty&type=Cleanser' },
@@ -161,6 +175,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Haircare',
+            link: '/products?category=beauty&type=Shampoo,Conditioner,Hair Oil,Hair Serum&title=Haircare Essentials',
             items: [
                 { label: 'Shampoo', link: '/products?category=beauty&type=Shampoo' },
                 { label: 'Conditioner', link: '/products?category=beauty&type=Conditioner' },
@@ -170,6 +185,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Fragrances',
+            link: '/products?category=beauty&type=Perfume,Deodorant,Body Mist&title=Fragrances',
             items: [
                 { label: 'Perfume', link: '/products?category=beauty&type=Perfume' },
                 { label: 'Deodorant', link: '/products?category=beauty&type=Deodorant' },
@@ -180,6 +196,7 @@ export const NAV_DATA = {
     home: [
         {
             heading: 'Bed Linen & Furnishing',
+            link: '/products?category=home&type=Bedsheets,Bedding Sets,Blankets,Pillows&title=Bed & Furnishing',
             items: [
                 { label: 'Bedsheets', link: '/products?category=home&type=Bedsheets' },
                 { label: 'Bedding Sets', link: '/products?category=home&type=Bedding Sets' },
@@ -189,6 +206,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Flooring',
+            link: '/products?category=home&type=Carpets,Mats,Door Mats&title=Flooring & Mats',
             items: [
                 { label: 'Carpets', link: '/products?category=home&type=Carpets' },
                 { label: 'Floor Mats & Dhurries', link: '/products?category=home&type=Mats' },
@@ -197,6 +215,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Bath',
+            link: '/products?category=home&type=Towels,Hand Towels,Beach Towels,Towel Sets&title=Bath Essentials',
             items: [
                 { label: 'Bath Towels', link: '/products?category=home&type=Towels' },
                 { label: 'Hand & Face Towels', link: '/products?category=home&type=Hand Towels' },
@@ -206,6 +225,7 @@ export const NAV_DATA = {
         },
         {
             heading: 'Lamps & Lighting',
+            link: '/products?category=home&type=Floor Lamps,Table Lamps,Wall Lamps&title=Lamps & Lighting',
             items: [
                 { label: 'Floor Lamps', link: '/products?category=home&type=Floor Lamps' },
                 { label: 'Table Lamps', link: '/products?category=home&type=Table Lamps' },

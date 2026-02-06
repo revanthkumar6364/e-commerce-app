@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import api from '../utils/api';
 import './admin.css';
 
 export default function Admin() {
@@ -8,8 +9,7 @@ export default function Admin() {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await fetch('http://localhost:5000/admin/stats');
-                const data = await res.json();
+                const { data } = await api.get('/admin/stats');
                 if (data.success) setStats(data.stats);
             } catch (err) {
                 console.error('Stats error:', err);

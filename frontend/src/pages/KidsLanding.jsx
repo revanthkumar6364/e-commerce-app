@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
 import { KIDS_CATEGORIES } from '../data/categoryImages';
@@ -48,8 +48,8 @@ const KIDS_BRANDS = [
 ];
 
 export default function KidsLanding() {
-    const { addToCart } = useContext(CartContext);
-    const navigate = useNavigate();
+    // const { addToCart } = useContext(CartContext);
+    // const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [timeLeft, setTimeLeft] = useState(20000);
 
@@ -74,7 +74,12 @@ export default function KidsLanding() {
     };
 
     // Filter only Kids products for deals
-    const kidsDeals = products.filter(p => p.subCategory === 'Kids' && p.price < 2000).slice(0, 5);
+    const [kidsDeals] = useState(() => {
+        return products.filter(p => p.subCategory === 'Kids' && p.price < 2000).slice(0, 5).map(p => ({
+            ...p,
+            randomDiscount: Math.floor(Math.random() * 20 + 20)
+        }));
+    });
 
     return (
         <div className="landing-page-v2">
@@ -137,7 +142,7 @@ export default function KidsLanding() {
                         <Link to={`/products/${p.id}`} key={p.id} className="deal-card">
                             <div className="deal-img-box">
                                 <img src={p.image} alt={p.title} />
-                                <span className="deal-badge">{Math.floor(Math.random() * 20 + 20)}% OFF</span>
+                                <span className="deal-badge">{p.randomDiscount}% OFF</span>
                             </div>
                             <div className="deal-info">
                                 <h4>{p.brand}</h4>

@@ -14,7 +14,7 @@
   height: 500px;
   position: relative;
   overflow: hidden;
-  background: #000;
+  background: #f5f5f6;
 }
 
 .hero-slides-wrapper {
@@ -48,9 +48,8 @@
   top: 50%;
   left: 10%;
   transform: translateY(-50%);
-  color: #fff;
+  color: #282c3f;
   z-index: 2;
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .hero-overlay-content h2 {
@@ -416,8 +415,8 @@
   left: 0;
   width: 100%;
   padding: 20px;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  color: #fff;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.95));
+  color: #282c3f;
 }
 
 .trend-overlay h3 {

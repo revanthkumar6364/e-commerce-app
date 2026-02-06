@@ -11,12 +11,11 @@ app.use(cors());
 app.use(express.json());
 
 // Configure CORS to allow frontend
-app.use(cors()); // Allow all origins for dev debugging
-// const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
-// app.use(cors({ origin: clientUrl }));
+const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+app.use(cors({ origin: clientUrl }));
 
 // MongoDB connection
-const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/urban_db';
+const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/demo_auth_db';
 
 const connectDB = async () => {
   try {
@@ -24,10 +23,10 @@ const connectDB = async () => {
     console.log('✅ MongoDB connected successfully');
   } catch (err) {
     console.warn('⚠️  Primary MongoDB connection failed:', err.message);
-    if (mongoUri.includes('mongodb+srv')) {
+    if (mongoUri.includes('mongodb+srv') || mongoUri.includes('localhost')) {
       console.log('🔄 Attempting local fallback...');
       try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/urban_db', { serverSelectionTimeoutMS: 3000 });
+        await mongoose.connect('mongodb://127.0.0.1:27017/demo_auth_db', { serverSelectionTimeoutMS: 3000 });
         console.log('✅ Local MongoDB connected as fallback');
       } catch (localErr) {
         console.error('❌ Both Atlas and Local MongoDB connections failed.');

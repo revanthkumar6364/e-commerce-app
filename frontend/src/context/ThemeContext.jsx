@@ -1,13 +1,13 @@
-import { createContext, useEffect, useState } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useEffect } from 'react';
 
-export const ThemeContext = createContext({ theme: 'light', toggle: () => {} });
+export const ThemeContext = createContext({ theme: 'light', toggle: () => { } });
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-  function toggle() { setTheme(t => (t === 'light' ? 'dark' : 'light')); }
-  return <ThemeContext.Provider value={{ theme, toggle }}>{children}</ThemeContext.Provider>;
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
+  }, []);
+  function toggle() { /* disabled */ }
+  return <ThemeContext.Provider value={{ theme: 'light', toggle }}>{children}</ThemeContext.Provider>;
 }

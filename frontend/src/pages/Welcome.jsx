@@ -5,17 +5,16 @@ import './Welcome.css';
 
 export default function Welcome() {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const [user] = useState(() => {
+        const userData = localStorage.getItem('user');
+        return userData ? JSON.parse(userData) : null;
+    });
     const [showConfetti, setShowConfetti] = useState(true);
 
     useEffect(() => {
-        const userData = localStorage.getItem('user');
-        if (userData) {
-            setUser(JSON.parse(userData));
-        }
-
         // Hide confetti after animation
-        setTimeout(() => setShowConfetti(false), 3000);
+        const timer = setTimeout(() => setShowConfetti(false), 3000);
+        return () => clearTimeout(timer);
     }, []);
 
     const perks = [

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import api from '../utils/api';
 import './track-order.css';
 
 export default function TrackOrder() {
@@ -22,14 +23,14 @@ export default function TrackOrder() {
         setError('');
         setOrder(null);
         try {
-            const res = await fetch(`http://localhost:5000/orders/${id}`);
-            const data = await res.json();
+            const { data } = await api.get(`/orders/${id}`);
             if (data.success) {
                 setOrder(data.order);
             } else {
                 setError('Order not found. Please check the Order ID.');
             }
-        } catch (err) {
+        } catch (error) {
+            console.error('Tracking error:', error);
             setError('Connection failed. Please try again later.');
         } finally {
             setLoading(false);

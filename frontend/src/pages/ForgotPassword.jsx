@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { Loader2, ArrowLeft, Mail, Phone } from 'lucide-react';
+import api from '../utils/api';
 import './ForgotPassword.css';
-
-const api = 'http://localhost:5000'; // Direct connection to fix Network Error
 
 export default function ForgotPassword() {
     const navigate = useNavigate();
@@ -26,7 +24,7 @@ export default function ForgotPassword() {
         setLoading(true);
 
         try {
-            await axios.post(`${api}/auth/password/forgot`, {
+            await api.post('/auth/password/forgot', {
                 identifier,
                 channel
             });

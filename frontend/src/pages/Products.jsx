@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { products } from '../data/products';
 import { CartContext } from '../context/CartContext';
@@ -12,100 +12,46 @@ export default function Products() {
   const { addItem } = useContext(CartContext);
   const navigate = useNavigate();
 
-  // Filter State
-  const [filters, setFilters] = useState({
-    brands: [],
-    categories: [],
-    priceRange: null,
-    colors: [],
-    discount: null,
-    sizes: []
-  });
+  // Derived filters from searchParams
+  const brands = searchParams.get('brands') ? searchParams.get('brands').split(',') : [];
+  const colors = searchParams.get('colors') ? searchParams.get('colors').split(',') : [];
+  const discountThreshold = searchParams.get('discount') ? parseInt(searchParams.get('discount')) : null;
 
   const [sortBy, setSortBy] = useState('recommended');
-  const [wishlistIds, setWishlistIds] = useState([]);
-
-  // Initialize filters from URL
-  useEffect(() => {
-    const brandsParam = searchParams.get('brands');
-    const colorsParam = searchParams.get('colors');
-    const discountParam = searchParams.get('discount');
-
-    setFilters(prev => ({
-      ...prev,
-      brands: brandsParam ? brandsParam.split(',') : [],
-      colors: colorsParam ? colorsParam.split(',') : [],
-      discount: discountParam ? parseInt(discountParam) : null
-    }));
-
-    // Load wishlist
+  const [wishlistIds, setWishlistIds] = useState(() => {
     try {
       const cur = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      setWishlistIds(cur.map(i => i.id));
-    } catch (e) {
-      setWishlistIds([]);
+      return cur.map(i => i.id);
+    } catch {
+      return [];
     }
-  }, [searchParams]);
+  });
 
   const handleFilterChange = (filterType, value) => {
-    setFilters(prev => {
-      const newFilters = { ...prev };
-
-      if (filterType === 'brands' || filterType === 'colors' || filterType === 'sizes' || filterType === 'categories') {
-        const arr = newFilters[filterType] || [];
-        if (arr.includes(value)) {
-          newFilters[filterType] = arr.filter(v => v !== value);
-        } else {
-          newFilters[filterType] = [...arr, value];
-        }
-      } else if (filterType === 'priceRange' || filterType === 'discount') {
-        newFilters[filterType] = value;
-      }
-
-      // Update URL
-      updateURL(newFilters);
-      return newFilters;
-    });
-  };
-
-  const updateURL = (newFilters) => {
     const params = new URLSearchParams(searchParams);
 
-    if (newFilters.brands.length > 0) {
-      params.set('brands', newFilters.brands.join(','));
-    } else {
-      params.delete('brands');
-    }
+    if (filterType === 'brands' || filterType === 'colors') {
+      const currentArr = params.get(filterType) ? params.get(filterType).split(',') : [];
+      let newValues;
+      if (currentArr.includes(value)) {
+        newValues = currentArr.filter(v => v !== value);
+      } else {
+        newValues = [...currentArr, value];
+      }
 
-    if (newFilters.categories.length > 0) {
-      params.set('types', newFilters.categories.join(','));
-    } else {
-      params.delete('types');
-    }
-
-    if (newFilters.colors.length > 0) {
-      params.set('colors', newFilters.colors.join(','));
-    } else {
-      params.delete('colors');
-    }
-
-    if (newFilters.discount) {
-      params.set('discount', newFilters.discount);
-    } else {
-      params.delete('discount');
+      if (newValues.length > 0) {
+        params.set(filterType, newValues.join(','));
+      } else {
+        params.delete(filterType);
+      }
+    } else if (filterType === 'discount') {
+      params.set('discount', value);
     }
 
     setSearchParams(params);
   };
 
   const handleClearAll = () => {
-    setFilters({
-      brands: [],
-      priceRange: null,
-      colors: [],
-      discount: null,
-      sizes: []
-    });
     const params = new URLSearchParams(searchParams);
     params.delete('brands');
     params.delete('colors');
@@ -146,18 +92,20 @@ export default function Products() {
         localStorage.setItem('wishlist', JSON.stringify(updated));
         setWishlistIds(updated.map(i => i.id));
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      console.error('Wishlist error');
     }
   };
-
-  // Apply Filters
-  let filtered = [...products];
 
   // Category/Department filter from URL
   const category = searchParams.get('category');
   const subCategory = searchParams.get('sub');
-  const type = searchParams.get('type');
+  const typeParam = searchParams.get('type');
+  const types = typeParam ? typeParam.split(',') : [];
+  const customTitle = searchParams.get('title');
+
+  // Apply Filters
+  let filtered = [...products];
 
   if (category) {
     filtered = filtered.filter(p => p.category === category);
@@ -165,45 +113,26 @@ export default function Products() {
   if (subCategory) {
     filtered = filtered.filter(p => p.subCategory === subCategory);
   }
-  if (type) {
-    filtered = filtered.filter(p => p.type === type);
+  if (types.length > 0) {
+    filtered = filtered.filter(p => types.includes(p.type));
   }
 
   // Brand filter
-  if (filters.brands.length > 0) {
-    filtered = filtered.filter(p => filters.brands.includes(p.brand));
-  }
-
-  // Category/Type filter
-  if (filters.categories.length > 0) {
-    filtered = filtered.filter(p => filters.categories.includes(p.type));
+  if (brands.length > 0) {
+    filtered = filtered.filter(p => brands.includes(p.brand));
   }
 
   // Color filter
-  if (filters.colors.length > 0) {
-    filtered = filtered.filter(p => p.color && filters.colors.includes(p.color));
-  }
-
-  // Price range filter
-  if (filters.priceRange) {
-    filtered = filtered.filter(p =>
-      p.price >= filters.priceRange.min && p.price <= filters.priceRange.max
-    );
+  if (colors.length > 0) {
+    filtered = filtered.filter(p => p.color && colors.includes(p.color));
   }
 
   // Discount filter
-  if (filters.discount) {
+  if (discountThreshold) {
     filtered = filtered.filter(p => {
       const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
-      return discount >= filters.discount;
+      return discount >= discountThreshold;
     });
-  }
-
-  // Size filter
-  if (filters.sizes.length > 0) {
-    filtered = filtered.filter(p =>
-      p.sizes && p.sizes.some(s => filters.sizes.includes(s))
-    );
   }
 
   // Sorting
@@ -217,6 +146,14 @@ export default function Products() {
       return discB - discA;
     }
     return 0; // recommended
+  });
+
+  const [ratingCounts] = useState(() => {
+    const counts = {};
+    products.forEach(p => {
+      counts[p.id] = Math.floor(Math.random() * 5000);
+    });
+    return counts;
   });
 
   // Build breadcrumbs
@@ -233,7 +170,7 @@ export default function Products() {
       <div className="products-container-myntra">
         {/* Filter Sidebar */}
         <FilterSidebar
-          filters={filters}
+          filters={{ brands, colors, discount: discountThreshold, categories: [], sizes: [] }}
           onFilterChange={handleFilterChange}
           onClearAll={handleClearAll}
           department={subCategory || 'Men'}
@@ -247,7 +184,7 @@ export default function Products() {
           {/* Header with count & sort */}
           <div className="products-header-myntra">
             <div className="products-title-myntra">
-              <h1>{type || subCategory || 'Products'}</h1>
+              <h1>{customTitle || typeParam || subCategory || 'Products'}</h1>
               <span className="products-count">({filtered.length} items)</span>
             </div>
             <div className="products-sort-myntra">
@@ -265,56 +202,47 @@ export default function Products() {
           {/* Products Grid */}
           <div className="products-grid-myntra">
             {filtered.map(product => {
-              const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
               const isWishlisted = wishlistIds.includes(product.id);
-
               return (
-                <Link
-                  to={`/products/${product.id}`}
-                  key={product.id}
-                  className="product-card-myntra"
-                >
-                  <div className="product-card-image-myntra">
-                    <img src={product.image} alt={product.title} />
-                    <button
-                      className={`wishlist-btn-myntra ${isWishlisted ? 'active' : ''}`}
-                      onClick={(e) => handleWishlist(product, e)}
-                    >
-                      <Heart size={18} fill={isWishlisted ? '#ff3f6c' : 'none'} />
-                    </button>
-                    <button
-                      className="quick-add-myntra"
-                      onClick={(e) => handleAddToCart(product, e)}
-                    >
-                      ADD TO BAG
-                    </button>
-                  </div>
-                  <div className="product-card-details-myntra">
-                    <h3 className="product-brand-myntra">{product.brand}</h3>
-                    <p className="product-title-myntra">{product.title}</p>
-                    <div className="product-price-myntra">
-                      <span className="price-final">₹{product.price}</span>
-                      <span className="price-mrp">₹{product.mrp}</span>
-                      <span className="price-discount">({discount}% OFF)</span>
+                <div key={product.id} className="product-card-myntra">
+                  <Link to={`/products/${product.id}`} className="product-card-link-myntra">
+                    <div className="product-card-image-myntra">
+                      <img src={product.image} alt={product.title} />
+                      <button
+                        className={`wishlist-btn-myntra ${isWishlisted ? 'active' : ''}`}
+                        onClick={(e) => handleWishlist(product, e)}
+                      >
+                        <Heart size={18} fill={isWishlisted ? '#ff3f6c' : 'none'} />
+                      </button>
+                      <button
+                        className="quick-add-myntra"
+                        onClick={(e) => handleAddToCart(product, e)}
+                      >
+                        ADD TO BAG
+                      </button>
                     </div>
-                    {product.rating && (
-                      <div className="product-rating-myntra">
-                        <span className="rating-value">{product.rating} <Star size={12} fill="#ffa500" stroke="none" /></span>
-                        <span className="rating-count">| {Math.floor(Math.random() * 5000)}</span>
+                    <div className="product-card-details-myntra">
+                      <h3 className="product-brand-myntra">{product.brand}</h3>
+                      <p className="product-title-myntra">{product.title}</p>
+                      <div className="product-price-myntra">
+                        <span className="price-final">₹{product.price}</span>
+                        <span className="price-mrp">₹{product.mrp}</span>
+                        <span className="price-discount">
+                          ({Math.round(((product.mrp - product.price) / product.mrp) * 100)}% OFF)
+                        </span>
                       </div>
-                    )}
-                  </div>
-                </Link>
+                      <div className="product-rating-myntra">
+                        <span className="rating-num">4.2</span>
+                        <Star size={12} fill="#ff3f6c" stroke="#ff3f6c" />
+                        <span className="rating-separator">|</span>
+                        <span className="rating-count">{ratingCounts[product.id]}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
               );
             })}
           </div>
-
-          {filtered.length === 0 && (
-            <div className="no-products-myntra">
-              <h2>No products found</h2>
-              <p>Try adjusting your filters</p>
-            </div>
-          )}
         </div>
       </div>
     </div>

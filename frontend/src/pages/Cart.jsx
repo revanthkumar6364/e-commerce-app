@@ -7,19 +7,14 @@ import AddressModal from './AddressModal'; // Import Modal
 import './cart.css';
 
 export default function Cart() {
-  const { items, removeItem, updateQty, total, clearCart } = useContext(CartContext);
+  const { items, removeItem, total, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
-  const [couponError, setCouponError] = useState('');
 
   // ADDRESS STATE
   const [showAddressModal, setShowAddressModal] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState({
-    name: 'Revanth Kumar',
-    pincode: '560021',
-    fullAddress: '37/9, 7th Cross, Hsr Extension...'
-  });
+  // selectedAddress removed as it was not being read anywhere in this file
 
   // EMPTY STATE
   if (items.length === 0) {
@@ -106,7 +101,6 @@ export default function Cart() {
 
   // COUPON LOGIC (PRESERVED)
   const handleApplyCoupon = () => {
-    setCouponError('');
     if (!couponCode.trim()) return;
 
     const code = couponCode.trim().toUpperCase();
@@ -114,14 +108,14 @@ export default function Cart() {
 
     if (offer) {
       if (total < offer.minAmount) {
-        setCouponError(`Add items worth ₹${offer.minAmount - total} more to use this code.`);
+        alert(`Add items worth ₹${offer.minAmount - total} more to use this code.`);
         setAppliedCoupon(null);
         return;
       }
       setAppliedCoupon(offer);
-      setCouponError('');
+      alert('Coupon applied successfully!');
     } else {
-      setCouponError('Invalid coupon code');
+      alert('Invalid coupon code');
       setAppliedCoupon(null);
     }
   };
@@ -129,7 +123,6 @@ export default function Cart() {
   const removeCoupon = () => {
     setAppliedCoupon(null);
     setCouponCode('');
-    setCouponError('');
   };
 
   // CALCULATIONS
@@ -148,7 +141,7 @@ export default function Cart() {
     }
   }
 
-  const tax = Math.round((total - discountAmount) * 0.05); // Kept tax logic but it might be inclusive in Myntra usually
+  // const tax = Math.round((total - discountAmount) * 0.05);
   // Myntra screenshot shows "Total MRP", "Discount on MRP", "Coupon Discount", "Platform Fee", "Shipping Fee"
   // Let's adapt closer to that structure
 
@@ -340,12 +333,8 @@ export default function Cart() {
         <AddressModal
           onClose={() => setShowAddressModal(false)}
           selectedId={1} // Ideally mapped from selectedAddress ID
-          onSelectAddress={(addr) => {
-            setSelectedAddress({
-              name: addr.name,
-              pincode: addr.state ? addr.state.split('-')[1]?.trim() : '560021',
-              fullAddress: addr.address
-            });
+          onSelectAddress={() => {
+            // Address selection logic omitted as it's not read
             setShowAddressModal(false);
           }}
         />

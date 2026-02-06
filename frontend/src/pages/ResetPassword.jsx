@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { Loader2, Eye, EyeOff, CheckCircle2 } from 'lucide-react';
+import api from '../utils/api';
 import './ResetPassword.css';
-
-const api = 'http://localhost:5000'; // Direct connection to fix Network Error
 
 export default function ResetPassword() {
     const location = useLocation();
@@ -35,7 +33,7 @@ export default function ResetPassword() {
         setLoading(true);
 
         try {
-            await axios.post(`${api}/auth/password/reset`, {
+            await api.post('/auth/password/reset', {
                 identifier,
                 otp,
                 newPassword,

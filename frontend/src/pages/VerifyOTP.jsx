@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { Loader2, RefreshCw } from 'lucide-react';
+import api from '../utils/api';
 import './VerifyOTP.css';
-
-const api = 'http://localhost:5000'; // Direct connection to fix Network Error
 
 export default function VerifyOTP() {
     const location = useLocation();
@@ -52,7 +50,7 @@ export default function VerifyOTP() {
                 ...(isSignup && name ? { name } : {})
             };
 
-            const res = await axios.post(`${api}/auth/otp/verify`, payload);
+            const res = await api.post('/auth/otp/verify', payload);
             const { token, user } = res.data;
 
             localStorage.setItem('token', token);
@@ -86,7 +84,7 @@ export default function VerifyOTP() {
                 [channel === 'sms' ? 'phone' : 'email']: identifier
             };
 
-            await axios.post(`${api}/auth/otp/request`, payload);
+            await api.post('/auth/otp/request', payload);
             setMsg('OTP sent successfully!');
 
         } catch (err) {
