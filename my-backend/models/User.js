@@ -23,11 +23,24 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    tier: {
+        type: String,
+        enum: ['SILVER', 'GOLD', 'PLATINUM'],
+        default: 'SILVER'
+    },
     coupons: [{
         code: String,
         discount: Number,
         isUsed: { type: Boolean, default: false }
     }],
+    otp: {
+        type: String,
+        default: null
+    },
+    otpExpiry: {
+        type: Date,
+        default: null
+    },
     email: {
         type: String,
         trim: true,
@@ -64,6 +77,10 @@ const userSchema = new mongoose.Schema({
     resetTokenExpiry: {
         type: Date,
         select: false
+    },
+    profileImage: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true

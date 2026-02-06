@@ -1,5 +1,8 @@
-
 /* --- URBAN VIBE REALITY CATALOG --- */
+import { TSHIRT_PRODUCTS } from './tshirts';
+import { KURTA_PRODUCTS } from './kurtas';
+import { SAREE_PRODUCTS } from './sarees';
+import { PARTY_WEAR_PRODUCTS } from './partywear';
 /* 
    Strictly mapped imagery to ensure "Jeans" look like Jeans.
    No random array indexing. Each type has a dedicated Image URL.
@@ -64,7 +67,7 @@ const DEFINITIONS = {
   ]
 };
 
-const BRANDS = ["Lumina", "Apex", "Nova", "Vortex", "Zenith", "Aura", "Nebula", "Sol", "Luna", "Flux"];
+const BRANDS = ["UrbanLumina", "UrbanApex", "UrbanNova", "UrbanVortex", "UrbanZenith", "UrbanAura", "UrbanNebula", "UrbanSol", "UrbanLuna", "UrbanFlux"];
 
 // --- GENERATOR LOGIC ---
 
@@ -76,6 +79,7 @@ function generateSubCategory(category, subCategory, templates, count, startId) {
 
     const inStock = Math.random() > 0.2; // 80% in stock
 
+    const price = 500 + Math.floor(Math.random() * 4500);
     items.push({
       id: startId + i,
       title: `${brand} ${template.type}`,
@@ -84,7 +88,8 @@ function generateSubCategory(category, subCategory, templates, count, startId) {
       stockCount: inStock ? Math.floor(Math.random() * 50) + 1 : 0,
       category: category,
       subCategory: subCategory, // e.g. 'Men', 'Women'
-      price: 500 + Math.floor(Math.random() * 4500),
+      price: price,
+      mrp: Math.floor(price * 1.4), // 40% higher MRP
       rating: (3.8 + Math.random() * 1.2).toFixed(1),
       reviews: Math.floor(Math.random() * 500) + 10,
       image: template.image,
@@ -116,12 +121,213 @@ const home = generateSubCategory('home', 'Decor', DEFINITIONS.home, 80, 4000);
 const travel = generateSubCategory('travel', 'Trips', DEFINITIONS.travel, 30, 5000);
 
 // 6. Import Product Collections
-import { TSHIRT_PRODUCTS } from './tshirts';
-import { KURTA_PRODUCTS } from './kurtas';
-import { SAREE_PRODUCTS } from './sarees';
-import { PARTY_WEAR_PRODUCTS } from './partywear';
 
-export const products = [...men, ...women, ...kids, ...electronics, ...beauty, ...home, ...travel, ...TSHIRT_PRODUCTS, ...KURTA_PRODUCTS, ...SAREE_PRODUCTS, ...PARTY_WEAR_PRODUCTS];
+// --- PREMIER BRANDS COLLECTION (Nike, Adidas, etc.) ---
+const PREMIER_BRANDS_COLLECTION = [
+  // NIKE - ALL DOWNLOADED PRODUCTS
+  {
+    id: 9001,
+    title: "Nike Air Max Correlate (WMNS)",
+    brand: "Nike",
+    price: 13995,
+    mrp: 15495,
+    category: "fashion",
+    subCategory: "Women",
+    type: "Shoes",
+    image: "/images/nike/WMNS+NIKE+AIR+MAX+CORRELATE.avif",
+    desc: "Engineered for excellence. The Air Max Correlate brings a rugged edge to your urban style.",
+    inStock: true,
+    stockCount: 15
+  },
+  {
+    id: 9002,
+    title: "Nike Dunk Hi Retro",
+    brand: "Nike",
+    price: 8495,
+    mrp: 9995,
+    category: "fashion",
+    subCategory: "Men",
+    type: "Shoes",
+    image: "/images/nike/NIKE+DUNK+HI+RETRO.avif",
+    desc: "An icon returns. The Nike Dunk Hi Retro deliver the classic look of 1980s basketball.",
+    inStock: true,
+    stockCount: 20
+  },
+  {
+    id: 9003,
+    title: "Nike Legend Essential 3",
+    brand: "Nike",
+    price: 5495,
+    mrp: 6495,
+    category: "fashion",
+    subCategory: "Men",
+    type: "Shoes",
+    image: "/images/nike/M+NIKE+LEGEND+ESSENTIAL+3+NN.avif",
+    desc: "Versatile durability for the gym. The Nike Legend Essential 3 is built for strength and stability.",
+    inStock: true,
+    stockCount: 25
+  },
+  {
+    id: 9004,
+    title: "Nike V5 RNR",
+    brand: "Nike",
+    price: 7495,
+    mrp: 8995,
+    category: "fashion",
+    subCategory: "Kids",
+    type: "Shoes",
+    image: "/images/nike/NIKE+V5+RNR+BG.avif",
+    desc: "Fast and lightweight. The Nike V5 RNR is designed to keep young athletes moving.",
+    inStock: true,
+    stockCount: 30
+  },
+  // ADIDAS
+  {
+    id: 9101,
+    title: "Adidas Ultraboost Light",
+    brand: "Adidas",
+    price: 15999,
+    mrp: 18999,
+    category: "fashion",
+    subCategory: "Men",
+    type: "Shoes",
+    image: "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=800&q=80",
+    desc: "Experience epic energy with the lightest Ultraboost ever. Boost your performance.",
+    inStock: true,
+    stockCount: 12
+  },
+  // PUMA
+  {
+    id: 9201,
+    title: "Puma RS-X Efekt Gradient",
+    brand: "Puma",
+    price: 7999,
+    mrp: 9999,
+    category: "fashion",
+    subCategory: "Men",
+    type: "Shoes",
+    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80",
+    desc: "Future-retro style. The RS-X returns with a disruptive silhouette and premium materials.",
+    inStock: true,
+    stockCount: 18
+  },
+  // ZARA
+  {
+    id: 9301,
+    title: "Zara Studio Wool Blend Coat",
+    brand: "Zara",
+    price: 12990,
+    mrp: 15990,
+    category: "fashion",
+    subCategory: "Men",
+    type: "Blazers",
+    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
+    desc: "Sophisticated tailoring from the Zara Studio collection. Premium wool blend for ultimate comfort.",
+    inStock: true,
+    stockCount: 8
+  },
+  // H&M
+  {
+    id: 9401,
+    title: "H&M Oversized Fit Hoodie",
+    brand: "H&M",
+    price: 1999,
+    mrp: 2999,
+    category: "fashion",
+    subCategory: "Men",
+    type: "T-Shirts",
+    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&q=80",
+    desc: "Premium cotton blend oversized hoodie for urban comfort.",
+    inStock: true,
+    stockCount: 25
+  },
+  {
+    id: 9402,
+    title: "H&M Relaxed Fit T-shirt",
+    brand: "H&M",
+    price: 799,
+    mrp: 1299,
+    category: "fashion",
+    subCategory: "Men",
+    type: "T-Shirts",
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80",
+    desc: "Soft cotton jersey T-shirt with a relaxed fit.",
+    inStock: true,
+    stockCount: 40
+  },
+  {
+    id: 9403,
+    title: "H&M Skinny Low Jeans",
+    brand: "H&M",
+    price: 2299,
+    mrp: 3999,
+    category: "fashion",
+    subCategory: "Men",
+    type: "Jeans",
+    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80",
+    desc: "Skinny-fit jeans in slightly stretchy denim.",
+    inStock: true,
+    stockCount: 15
+  },
+  {
+    id: 9404,
+    title: "H&M Ribbed Knit Cardigan",
+    brand: "H&M",
+    price: 3999,
+    mrp: 5999,
+    category: "fashion",
+    subCategory: "Women",
+    type: "Sweaters",
+    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&q=80",
+    desc: "Soft ribbed-knit cardigan in a premium wool blend.",
+    inStock: true,
+    stockCount: 20
+  },
+  {
+    id: 9405,
+    title: "H&M Satin Slip Dress",
+    brand: "H&M",
+    price: 2499,
+    mrp: 3999,
+    category: "fashion",
+    subCategory: "Women",
+    type: "Dresses",
+    image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80",
+    desc: "Elegant satin slip dress for evening allure.",
+    inStock: true,
+    stockCount: 12
+  },
+  {
+    id: 9406,
+    title: "H&M High-waisted Trousers",
+    brand: "H&M",
+    price: 1999,
+    mrp: 2999,
+    category: "fashion",
+    subCategory: "Women",
+    type: "Trousers",
+    image: "https://images.unsplash.com/photo-1548777123-e216912df7d8?w=800&q=80",
+    desc: "Ankle-length trousers in a soft, woven fabric.",
+    inStock: true,
+    stockCount: 18
+  },
+  {
+    id: 9501,
+    title: "Levi's 501 Original Selvedge",
+    brand: "Levi's",
+    price: 5999,
+    mrp: 7999,
+    category: "fashion",
+    subCategory: "Men",
+    type: "Jeans",
+    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&q=80",
+    desc: "The blueprint for every jean in existence. Original selvedge denim for the true connoisseur.",
+    inStock: true,
+    stockCount: 25
+  }
+];
+
+export const products = [...men, ...women, ...kids, ...electronics, ...beauty, ...home, ...travel, ...TSHIRT_PRODUCTS, ...KURTA_PRODUCTS, ...SAREE_PRODUCTS, ...PARTY_WEAR_PRODUCTS, ...PREMIER_BRANDS_COLLECTION];
 
 // --- EXPORTS & METADATA ---
 export const categories = [

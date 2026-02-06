@@ -43,6 +43,11 @@ const orderSchema = new mongoose.Schema({
         name: { type: String, default: 'Agent Rahul' },
         phone: { type: String, default: '+91 98765 43210' }
     },
+    address: {
+        name: String,
+        pincode: String,
+        address: String
+    },
     createdAt: {
         type: Date,
         default: Date.now

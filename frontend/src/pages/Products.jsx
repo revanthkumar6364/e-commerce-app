@@ -161,8 +161,8 @@ export default function Products() {
   if (subCategory) {
     breadcrumbs.push({ label: subCategory });
   }
-  if (type) {
-    breadcrumbs.push({ label: type });
+  if (typeParam) {
+    breadcrumbs.push({ label: typeParam });
   }
 
   return (
@@ -184,7 +184,7 @@ export default function Products() {
           {/* Header with count & sort */}
           <div className="products-header-myntra">
             <div className="products-title-myntra">
-              <h1>{customTitle || typeParam || subCategory || 'Products'}</h1>
+              <h1>{customTitle || typeParam || subCategory || (brands.length > 0 ? `${brands.join(', ')} Collection` : 'Products')}</h1>
               <span className="products-count">({filtered.length} items)</span>
             </div>
             <div className="products-sort-myntra">

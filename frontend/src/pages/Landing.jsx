@@ -41,17 +41,17 @@ const CATEGORIES = [
   { id: 'men', label: 'Men', image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&q=80' },
   { id: 'women', label: 'Women', image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400&q=80' },
   { id: 'kids', label: 'Kids', image: 'https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?w=400&q=80' },
-  { id: 'beauty', label: 'Beauty', image: 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=400&q=80' },
+  { id: 'beauty', label: 'Beauty', image: 'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=80' },
   { id: 'home', label: 'Home', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=80' },
   { id: 'travel', label: 'Travel', image: 'https://images.unsplash.com/photo-1542296332-2e44a996aaad?w=400&q=80' }
 ];
 
-// --- DATA: BRANDS ---
 const BRANDS = [
   { name: 'Nike', img: 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg', offer: 'Min 40% Off' },
-  { name: 'Adidas', img: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg', offer: 'Flat 50% Off' },
-  { name: 'Puma', img: 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Puma_Logo.svg', offer: 'Under ₹999' },
-  { name: 'H&M', img: 'https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg', offer: 'Buy 1 Get 1' },
+  { name: 'Adidas', img: '/images/logos/adidas.png', offer: 'Flat 50% Off' },
+  { name: 'Puma', img: '/images/logos/puma.png', offer: 'Under ₹999' },
+  { name: 'H&M', img: '/images/logos/hm.png', offer: 'Buy 1 Get 1' },
+  { name: 'Rare Rabbit', img: 'https://cdn.brandfetch.io/id_gB_O_3O/theme/dark/logo.png?v=1', offer: 'Classic Look' },
   { name: 'Zara', img: 'https://upload.wikimedia.org/wikipedia/commons/f/fd/Zara_Logo.svg', offer: 'New Arrivals' },
   { name: 'Levi\'s', img: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Levi%27s_logo.svg', offer: 'Flat 40% Off' }
 ];
@@ -87,9 +87,9 @@ export default function Landing() {
   };
 
   const [dealProducts] = useState(() => {
-    return products.filter(p => p.price < 2500).slice(0, 5).map(p => ({
+    return products.filter(p => p.price < 2500).slice(0, 5).map((p, idx) => ({
       ...p,
-      randomDiscount: Math.floor(Math.random() * 30 + 30)
+      randomDiscount: 30 + (idx * 5) % 40 // Deterministic discount based on index
     }));
   });
 
@@ -182,14 +182,14 @@ export default function Landing() {
         <h2 className="section-heading">OMG! DEALS</h2>
         <div className="brands-grid">
           {BRANDS.map((brand, i) => (
-            <div key={i} className="brand-card">
+            <Link to={`/products?brands=${encodeURIComponent(brand.name)}`} key={i} className="brand-card">
               <div className="brand-logo-area">
-                <h3>{brand.name}</h3>  {/* Using text fallback if logos failing */}
+                <img src={brand.img} alt={brand.name} className="brand-logo-img" />
               </div>
               <div className="brand-offer">
                 {brand.offer}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -213,7 +213,7 @@ export default function Landing() {
             </div>
           </Link>
           <Link to="/products?category=beauty" className="trend-item">
-            <img src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?w=800&q=80" alt="Beauty" />
+            <img src="https://images.unsplash.com/photo-1627384113743-6bd5a479fffd?w=1200&q=80" alt="Beauty" />
             <div className="trend-overlay">
               <h3>GLOW UP</h3>
             </div>

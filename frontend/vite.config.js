@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true,
+    allowedHosts: ['www.urbanVibe.com', 'localhost', '127.0.0.1', '192.168.1.5'],
     proxy: {
       '/auth': {
         target: 'http://localhost:5000',
@@ -14,23 +16,7 @@ export default defineConfig({
         target: 'http://localhost:5000',
         changeOrigin: true,
       },
-      '/travel': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-      '/user': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
       '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-      '/products': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-      '/admin': {
         target: 'http://localhost:5000',
         changeOrigin: true,
       }

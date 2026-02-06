@@ -3,7 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { couponsAndOffers, products } from '../data/products';
 import { ShieldCheck, ChevronDown, Check, X } from 'lucide-react';
-import AddressModal from './AddressModal'; // Import Modal
+import AddressModal from './AddressModal';
+import PaymentVerificationModal from './PaymentVerificationModal';
+import PaymentSuccess from './PaymentSuccess';
 import './cart.css';
 
 export default function Cart() {
@@ -14,10 +16,19 @@ export default function Cart() {
 
   // ADDRESS STATE
   const [showAddressModal, setShowAddressModal] = useState(false);
-  // selectedAddress removed as it was not being read anywhere in this file
+  const [selectedAddress, setSelectedAddress] = useState({
+    name: 'Revanth Kumar',
+    pincode: '560021',
+    address: '37/9, 7th Cross, Hsr Extension, Bangalore, Karnataka'
+  });
+
+  // CHECKOUT FLOW STATE
+  const [showVerification, setShowVerification] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(null);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   // EMPTY STATE
-  if (items.length === 0) {
+  if (items.length === 0 && !orderSuccess) { // Added !orderSuccess to prevent empty cart screen after successful order
     return (
       <div className="empty-cart">
         <div className="empty-cart-content">
@@ -149,6 +160,55 @@ export default function Cart() {
   const productDiscount = totalMRP - total;
   const finalTotal = total - discountAmount + finalShipping + platformFee;
 
+  const handlePlaceOrder = () => {
+    if (items.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+    setIsPlacingOrder(true);
+    setShowVerification(true);
+  };
+
+  const onPaymentVerify = async () => {
+    setIsPlacingOrder(true);
+    try {
+      const response = await fetch('http://localhost:5000/user/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'user-id': '65c1a2b3e4b0c1a2b3e4b0c1' // Using the same mock ID for now
+        },
+        body: JSON.stringify({
+          items: items,
+          totalAmount: finalTotal,
+          address: {
+            name: user?.name || 'Aura Customer',
+            address: '12 Luxury Lane, Beverly Hills, CA 90210' // Mock for now
+          }
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setOrderSuccess({
+          orderId: data.order.orderId,
+          total: data.order.total,
+          items: items,
+          earnedCoins: data.earnedCoins
+        });
+        clearCart();
+        setShowVerification(false);
+      } else {
+        alert(data.message || 'Payment failed');
+      }
+    } catch (error) {
+      console.error('Order Placement Error:', error);
+      alert('Error connecting to server');
+    } finally {
+      setIsPlacingOrder(false);
+    }
+  };
+
   return (
     <div className="cart-page-wrapper">
       {/* HEADER STEPPER */}
@@ -177,10 +237,10 @@ export default function Cart() {
           {/* ADDRESS STRIP */}
           <div className="address-strip">
             <div className="address-details">
-              <h4>Deliver to: <strong>Revanth Kumar, 560021</strong></h4>
-              <p>37/9, 7th Cross, Hsr Extension...</p>
+              <h4>Deliver to: <strong>{selectedAddress.name}, {selectedAddress.pincode}</strong></h4>
+              <p>{selectedAddress.address.substring(0, 40)}...</p>
             </div>
-            <button className="btn-change-address">CHANGE ADDRESS</button>
+            <button className="btn-change-address" onClick={() => setShowAddressModal(true)}>CHANGE ADDRESS</button>
           </div>
 
           {/* OFFERS STRIP */}
@@ -298,7 +358,7 @@ export default function Cart() {
             </div>
             <div className="price-row">
               <span>Shipping Fee</span>
-              <span>{finalShipping === 0 ? <span className="green-text">FREE</span> : `₹${finalShipping}`}</span>
+              <span>{finalShipping === 0 ? <span className="green-text">FREE</span> : `₹${finalShipping} `}</span>
             </div>
 
             <div className="price-row total">
@@ -306,8 +366,12 @@ export default function Cart() {
               <span>₹{finalTotal}</span>
             </div>
 
-            <button className="btn-place-order" onClick={() => navigate('/checkout')}>
-              PLACE ORDER
+            <button
+              className="btn-place-order"
+              onClick={handlePlaceOrder}
+              disabled={items.length === 0 || isPlacingOrder}
+            >
+              {isPlacingOrder ? 'PLACING ORDER...' : 'PLACE ORDER'}
             </button>
           </div>
 
@@ -332,14 +396,37 @@ export default function Cart() {
       {showAddressModal && (
         <AddressModal
           onClose={() => setShowAddressModal(false)}
-          selectedId={1} // Ideally mapped from selectedAddress ID
-          onSelectAddress={() => {
-            // Address selection logic omitted as it's not read
+          selectedId={selectedAddress.id || 1}
+          onSelectAddress={(addr) => {
+            setSelectedAddress({
+              id: addr.id,
+              name: addr.name,
+              pincode: addr.state.split('-')[1]?.trim() || '560021',
+              address: addr.address
+            });
             setShowAddressModal(false);
           }}
         />
       )}
 
+      {showVerification && (
+        <PaymentVerificationModal
+          onClose={() => {
+            setShowVerification(false);
+            setIsPlacingOrder(false);
+          }}
+          onVerify={onPaymentVerify}
+        />
+      )}
+
+      {orderSuccess && (
+        <PaymentSuccess
+          orderId={orderSuccess.orderId}
+          total={orderSuccess.total}
+          itemsCount={orderSuccess.items.length}
+          earnedCoins={orderSuccess.earnedCoins}
+        />
+      )}
     </div>
   );
 }

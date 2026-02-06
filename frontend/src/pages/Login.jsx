@@ -45,6 +45,21 @@ export default function Login() {
       return;
     }
 
+    // Basic Validation
+    if (channel === 'sms') {
+      const phoneRegex = identifier.startsWith('+') ? /^\+\d{10,15}$/ : /^\d{10}$/;
+      if (!phoneRegex.test(identifier)) {
+        setMsg(identifier.startsWith('+') ? 'Please enter a valid international phone number (+ digits)' : 'Please enter a valid 10-digit mobile number');
+        return;
+      }
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(identifier)) {
+        setMsg('Please enter a valid email address');
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
@@ -119,13 +134,13 @@ export default function Login() {
         {/* Left Side - Hero Image */}
         <div className="myntra-login-hero">
           <img
-            src="file:///C:/Users/test/.gemini/antigravity/brain/4378dd63-2eb8-4d48-b1d8-8096b24e4b3c/login_hero_fashion_1770282382215.png"
+            src={isSignup ? "/images/banners/fashion-hero.png" : "/images/summer-hero.png"}
             alt="Fashion Model"
             className="hero-image"
           />
           <div className="hero-overlay">
-            <h1>Join the Vibe</h1>
-            <p>Get access to your Orders, Wishlist and Recommendations</p>
+            <h1>{isSignup ? "Create Your Style" : "Join the Vibe"}</h1>
+            <p>{isSignup ? "Sign up to unlock exclusive deals and personalized recommendations" : "Get access to your Orders, Wishlist and Recommendations"}</p>
           </div>
         </div>
 
@@ -184,9 +199,25 @@ export default function Login() {
               <label>{channel === 'sms' ? 'Mobile Number' : 'Email Address'}</label>
               <input
                 type={channel === 'sms' ? 'tel' : 'email'}
-                placeholder={channel === 'sms' ? 'Enter your mobile number' : 'Enter your email'}
+                placeholder={channel === 'sms' ? 'Enter 10-digit mobile number' : 'Enter your email'}
                 value={identifier}
-                onChange={e => setIdentifier(e.target.value)}
+                onChange={e => {
+                  let val = e.target.value;
+                  if (channel === 'sms') {
+                    // Allow '+' only at the start
+                    if (val.startsWith('+')) {
+                      // Remove non-numeric after '+'
+                      val = '+' + val.slice(1).replace(/\D/g, '');
+                      // Limit global numbers to 15 digits (standard max)
+                      if (val.length > 16) return;
+                    } else {
+                      // Local number: remove all non-numeric and limit to 10
+                      val = val.replace(/\D/g, '');
+                      if (val.length > 10) return;
+                    }
+                  }
+                  setIdentifier(val);
+                }}
                 required
               />
 

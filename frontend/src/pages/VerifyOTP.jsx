@@ -112,7 +112,7 @@ export default function VerifyOTP() {
                 {/* Left Side - Hero */}
                 <div className="myntra-login-hero">
                     <img
-                        src="file:///C:/Users/test/.gemini/antigravity/brain/4378dd63-2eb8-4d48-b1d8-8096b24e4b3c/login_hero_fashion_1770282382215.png"
+                        src="/images/banners/fashion-hero.png"
                         alt="Fashion Model"
                         className="hero-image"
                     />

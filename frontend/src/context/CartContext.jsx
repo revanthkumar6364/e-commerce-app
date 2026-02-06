@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 
 export const CartContext = createContext();
 
@@ -43,20 +43,21 @@ function cartReducer(state, action) {
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  // Save to localStorage
+  // Sync with localStorage
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state.items));
+  }, [state.items]);
+
   const addItem = (product) => {
     dispatch({ type: 'ADD_ITEM', payload: product });
-    setTimeout(() => localStorage.setItem('cart', JSON.stringify(state.items)), 0);
   };
 
   const removeItem = (id) => {
     dispatch({ type: 'REMOVE_ITEM', payload: id });
-    setTimeout(() => localStorage.setItem('cart', JSON.stringify(state.items)), 0);
   };
 
   const updateQty = (id, qty) => {
     dispatch({ type: 'UPDATE_QTY', payload: { id, qty } });
-    setTimeout(() => localStorage.setItem('cart', JSON.stringify(state.items)), 0);
   };
 
   const clearCart = () => {
