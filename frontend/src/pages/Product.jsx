@@ -1,16 +1,19 @@
 import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getProductById, products as allProducts } from '../data/products';
+import { getProductById } from '../data/products';
 import { CartContext } from '../context/CartContext';
+import api from '../utils/api';
 import './product.css';
 
 export default function Product() {
   const { id } = useParams();
   const p = getProductById(id);
-  const [qty, setQty] = useState(1);
+  // const [qty, setQty] = useState(1);
+  const qty = 1;
   const [selectedColor, setSelectedColor] = useState('default');
   const [selectedSize, setSelectedSize] = useState('M');
-  const [activeImg, setActiveImg] = useState(null);
+  // const [activeImg, setActiveImg] = useState(null);
+  const activeImg = null;
   const { addItem } = useContext(CartContext);
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
@@ -24,6 +27,21 @@ export default function Product() {
   //   window.scrollTo(0, 0);
   // }, [id]);
 
+  useEffect(() => {
+    if (!p) return;
+    const fetchReviews = async () => {
+      try {
+        const { data } = await api.get(`/products/${p.id}/reviews`);
+        if (data.success) setReviews(data.reviews);
+      } catch (err) {
+        console.error('Reviews error:', err);
+      } finally {
+        setRevLoading(false);
+      }
+    };
+    fetchReviews();
+  }, [p]);
+
   if (!p) return <div className="not-found">Product not found</div>;
 
   const currentImage = activeImg || p.image;
@@ -35,8 +53,7 @@ export default function Product() {
     { name: 'Pearl White', code: '#f0f0f0' },
   ];
 
-
-
+  const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
   const handleAddToCart = () => {
     const token = localStorage.getItem('token');
@@ -51,7 +68,7 @@ export default function Product() {
     alert(`✅ Added ${qty} item(s) to cart`);
   };
 
-  const shareText = `${p.title} - ₹${p.price} - ` + (typeof window !== 'undefined' ? window.location.href : '');
+  // const shareText = `${p.title} - ₹${p.price} - ` + (typeof window !== 'undefined' ? window.location.href : '');
 
   function handleShare() {
     if (navigator.share) {
@@ -61,32 +78,12 @@ export default function Product() {
     navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied to clipboard'));
   }
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/products/${p.id}/reviews`);
-        const data = await res.json();
-        if (data.success) setReviews(data.reviews);
-      } catch (err) {
-        console.error('Reviews error:', err);
-      } finally {
-        setRevLoading(false);
-      }
-    };
-    fetchReviews();
-  }, [p.id]);
-
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!newReview.userName || !newReview.comment) return alert('Please fill all fields');
     setSubmitting(true);
     try {
-      const res = await fetch(`http://localhost:5000/products/${p.id}/reviews`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newReview)
-      });
-      const data = await res.json();
+      const { data } = await api.post(`/products/${p.id}/reviews`, newReview);
       if (data.success) {
         setReviews([data.review, ...reviews]);
         setNewReview({ rating: 5, comment: '', userName: '' });

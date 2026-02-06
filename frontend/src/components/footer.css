@@ -73,18 +73,20 @@
 /* Socials */
 .social-icons-row {
   display: flex;
-  gap: 15px;
+  gap: 20px;
 }
 
 .social-icon {
-  font-weight: 600;
   color: #696b79;
   cursor: pointer;
-  border-bottom: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s, color 0.2s;
 }
 
 .social-icon:hover {
-  border-bottom-color: #696b79;
+  color: var(--primary);
+  transform: translateY(-2px);
 }
 
 /* Guarantee Box */
@@ -92,7 +94,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .guarantee-box div {

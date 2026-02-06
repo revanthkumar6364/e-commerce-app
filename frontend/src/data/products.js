@@ -89,6 +89,7 @@ function generateSubCategory(category, subCategory, templates, count, startId) {
       reviews: Math.floor(Math.random() * 500) + 10,
       image: template.image,
       images: [template.image, template.image],
+      type: template.type, // Added for filtering
       desc: template.desc || `Official ${brand} product. This ${template.type} is crafted with the finest materials for premium quality and durability.`,
       tags: [category, subCategory, template.type.split(' ')[1] || 'style'].filter(Boolean)
     });

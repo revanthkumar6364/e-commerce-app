@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import api from '../utils/api';
 import './contact.css';
 
 export default function Contact() {
@@ -20,12 +21,7 @@ export default function Contact() {
     e.preventDefault();
     if (formData.name && formData.email && formData.message) {
       try {
-        const response = await fetch('http://localhost:5000/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-        const data = await response.json();
+        const data = await api.post('/api/contact', formData);
         if (data.success) {
           setSubmitted(true);
           setFormData({ name: '', email: '', phone: '', subject: '', message: '' });

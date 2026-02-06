@@ -1,22 +1,21 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { X } from 'lucide-react';
 import './wishlist.css';
 
 export default function Wishlist() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('wishlist') || '[]');
+    } catch {
+      return [];
+    }
+  });
+
   const { addItem } = useContext(CartContext);
 
-  // Sync with LocalStorage on Mount
-  useEffect(() => {
-    try {
-      const cur = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      setItems(cur);
-    } catch (e) {
-      setItems([]);
-    }
-  }, []);
+  // Sync with LocalStorage on Mount removed as it's now initialized directly
 
   const handleRemove = (id) => {
     const next = items.filter(i => i.id !== id);

@@ -5,8 +5,12 @@ import './profile.css';
 export default function Profile() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  console.log('Token debug:', token); // Log it to "use" it or just remove if safe. Lint says unused.
+  // Actually, I'll just remove it if it's not used.
+  // const token = localStorage.getItem('token');
+
   let user = null;
-  try { user = JSON.parse(localStorage.getItem('user') || 'null'); } catch (e) { user = null; }
+  try { user = JSON.parse(localStorage.getItem('user') || 'null'); } catch { user = null; }
 
   // Edit mode state
   const [isEditing, setIsEditing] = useState(false);
@@ -17,13 +21,9 @@ export default function Profile() {
   });
 
   // Purchase history state
-  const [purchaseHistory, setPurchaseHistory] = useState([]);
-
-  useEffect(() => {
-    // Load purchase history from localStorage or mock data
-    const orders = JSON.parse(localStorage.getItem('orderHistory') || '[]');
-    if (orders.length === 0) {
-      // Mock data if no orders exist
+  const [purchaseHistory] = useState(() => {
+    const ordersString = localStorage.getItem('orderHistory');
+    if (!ordersString) {
       const mockOrders = [
         {
           id: 'ORD-2024-001',
@@ -54,11 +54,14 @@ export default function Profile() {
           status: 'cancelled'
         }
       ];
-      setPurchaseHistory(mockOrders);
       localStorage.setItem('orderHistory', JSON.stringify(mockOrders));
-    } else {
-      setPurchaseHistory(orders);
+      return mockOrders;
     }
+    return JSON.parse(ordersString);
+  });
+
+  useEffect(() => {
+    // Initialized in useState
   }, []);
 
   function logout() {

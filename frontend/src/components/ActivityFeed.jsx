@@ -13,6 +13,18 @@ export default function ActivityFeed() {
     const [active, setActive] = useState(false);
     const [current, setCurrent] = useState(ACTIVITIES[0]);
 
+    const cycleActivity = () => {
+        setActive(false);
+        setTimeout(() => {
+            const randomActivity = ACTIVITIES[Math.floor(Math.random() * ACTIVITIES.length)];
+            setCurrent(randomActivity);
+            setActive(true);
+
+            // Hide after 6 seconds
+            setTimeout(() => setActive(false), 6000);
+        }, 1000);
+    };
+
     useEffect(() => {
         // Show first popup after 5 seconds
         const initialTimeout = setTimeout(() => {
@@ -28,18 +40,6 @@ export default function ActivityFeed() {
             clearInterval(interval);
         };
     }, []);
-
-    const cycleActivity = () => {
-        setActive(false);
-        setTimeout(() => {
-            const randomActivity = ACTIVITIES[Math.floor(Math.random() * ACTIVITIES.length)];
-            setCurrent(randomActivity);
-            setActive(true);
-
-            // Hide after 6 seconds
-            setTimeout(() => setActive(false), 6000);
-        }, 1000);
-    };
 
     if (!active) return null;
 

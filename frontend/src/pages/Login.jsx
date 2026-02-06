@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { Loader2, Eye, EyeOff } from 'lucide-react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { Loader2, Eye, EyeOff, Mail, Phone, Lock, User, ArrowRight } from 'lucide-react';
+import api from '../utils/api';
 import './Login.css';
-
-const api = 'http://localhost:5000'; // Direct connection to fix Network Error
 
 export default function Login() {
   const navigate = useNavigate();
@@ -55,7 +53,7 @@ export default function Login() {
         [channel === 'sms' ? 'phone' : 'email']: identifier
       };
 
-      await axios.post(`${api}/auth/otp/request`, payload);
+      await api.post('/auth/otp/request', payload);
 
       navigate('/verify-otp', {
         state: {
@@ -92,7 +90,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${api}/auth/login/password`, {
+      const res = await api.post('/auth/login/password', {
         identifier,
         password
       });

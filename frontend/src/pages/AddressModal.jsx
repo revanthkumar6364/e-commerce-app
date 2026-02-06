@@ -26,7 +26,7 @@ const MOCK_ADDRESSES = [
 ];
 
 export default function AddressModal({ onClose, onSelectAddress, selectedId }) {
-    const [addresses, setAddresses] = useState(MOCK_ADDRESSES);
+    const [addresses] = useState(MOCK_ADDRESSES);
     const [tempSelected, setTempSelected] = useState(selectedId || 1);
 
     const handleSelect = (addr) => {

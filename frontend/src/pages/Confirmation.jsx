@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './confirmation.css';
 
@@ -5,18 +6,22 @@ export default function Confirmation() {
   const { state } = useLocation();
   const navigate = useNavigate();
 
+  // Generate stable random values for this mount
+  const [randomInfo] = useState(() => {
+    const contact = Math.random().toString().slice(2, 12);
+    const persons = ['Raj Kumar', 'Priya Singh', 'Arun Patel', 'Neha Sharma', 'Vikram Gupta'];
+    const person = persons[Math.floor(Math.random() * persons.length)];
+    const shipId = 'SHIP' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    return { deliveryContact: contact, deliveryPerson: person, shippingId: shipId };
+  });
+
   if (!state) {
     navigate('/products');
     return null;
   }
 
   const { orderId, total, shippingAddress, items, estimatedDelivery, placedAt, payment, customerDetails } = state;
-
-  // Generate random delivery contact
-  const deliveryContact = Math.random().toString().slice(2, 12);
-  const deliveryPersons = ['Raj Kumar', 'Priya Singh', 'Arun Patel', 'Neha Sharma', 'Vikram Gupta'];
-  const deliveryPerson = deliveryPersons[Math.floor(Math.random() * deliveryPersons.length)];
-  const shippingId = 'SHIP' + Math.random().toString(36).substr(2, 9).toUpperCase();
+  const { deliveryContact, deliveryPerson, shippingId } = randomInfo;
 
   return (
     <div className="confirmation-page">

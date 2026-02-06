@@ -10,7 +10,13 @@ export default function MegaMenu({ data, onClose }) {
             <div className="mega-menu-content">
                 {data.map((column, idx) => (
                     <div key={idx} className="mega-menu-column">
-                        <h4 className="mega-menu-heading">{column.heading}</h4>
+                        {column.link ? (
+                            <Link to={column.link} className="mega-menu-heading-link" onClick={onClose}>
+                                <h4 className="mega-menu-heading">{column.heading}</h4>
+                            </Link>
+                        ) : (
+                            <h4 className="mega-menu-heading">{column.heading}</h4>
+                        )}
                         <ul className="mega-menu-list">
                             {column.items.map((item, i) => (
                                 <li key={i}>

@@ -46,14 +46,14 @@
 }
 
 .badge-luxury {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--bg);
+  color: var(--text);
   padding: 8px 16px;
   border-radius: 4px;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 1px;
-  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
 }
 
 /* --- Right: Sticky Details --- */

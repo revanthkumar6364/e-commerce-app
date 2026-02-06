@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
-import { products, collections } from '../data/products';
+import { products } from '../data/products';
 import { ChevronLeft, ChevronRight, Clock, Zap, Star } from 'lucide-react';
 import './landing.css';
 
@@ -57,8 +57,8 @@ const BRANDS = [
 ];
 
 export default function Landing() {
-  const { addToCart } = useContext(CartContext);
-  const navigate = useNavigate();
+  // const { addToCart } = useContext(CartContext);
+  // const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [timeLeft, setTimeLeft] = useState(18000); // 5 hours in seconds
 
@@ -86,7 +86,12 @@ export default function Landing() {
     return `${h.toString().padStart(2, '0')}h : ${m.toString().padStart(2, '0')}m : ${s.toString().padStart(2, '0')}s`;
   };
 
-  const dealProducts = products.filter(p => p.price < 2500).slice(0, 5);
+  const [dealProducts] = useState(() => {
+    return products.filter(p => p.price < 2500).slice(0, 5).map(p => ({
+      ...p,
+      randomDiscount: Math.floor(Math.random() * 30 + 30)
+    }));
+  });
 
   return (
     <div className="landing-page-v2">
@@ -156,7 +161,7 @@ export default function Landing() {
             <Link to={`/products/${p.id}`} key={p.id} className="deal-card">
               <div className="deal-img-box">
                 <img src={p.image} alt={p.title} />
-                <span className="deal-badge">{Math.floor(Math.random() * 30 + 30)}% OFF</span>
+                <span className="deal-badge">{p.randomDiscount}% OFF</span>
               </div>
               <div className="deal-info">
                 <h4>{p.brand}</h4>
