@@ -866,9 +866,50 @@
   background: #fff;
   z-index: 5000;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  /* Change from center to allow scroll from top */
   justify-content: center;
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  padding: 40px 20px;
   animation: fadeIn 0.5s ease-out;
+}
+
+.order-id-copy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.order-id-copy:hover {
+  transform: scale(1.02);
+}
+
+.copy-toast {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  background: #20bd99;
+  color: white;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  animation: fadeInUp 0.3s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
@@ -1056,6 +1097,55 @@
   top: 40%;
   right: 20%;
   animation-delay: 2s;
+}
+
+.coin-reward-pop {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.coin-reward-pop.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.coin-wrapper {
+  background: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  animation: shine 2s infinite linear;
+}
+
+@keyframes shine {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+  }
+
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  }
+}
+
+.coin-count {
+  font-size: 18px;
+  font-weight: 800;
+  color: #282c3f;
 }
 
 @keyframes float {

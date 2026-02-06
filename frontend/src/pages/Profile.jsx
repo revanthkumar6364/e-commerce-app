@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Truck, Package, Clock, ShieldCheck, CheckCircle, ChevronRight, X, Smartphone, Mail } from 'lucide-react';
+import { Truck, Package, Clock, ShieldCheck, CheckCircle, ChevronRight, X, Smartphone, Mail, Copy, Check, ShoppingBag, RotateCcw } from 'lucide-react';
+import { CartContext } from '../context/CartContext';
 import AddressModal from './AddressModal';
 import './profile.css';
 
@@ -9,11 +10,13 @@ export default function Profile({ user, logout }) {
   const fileInputRef = useRef(null);
 
   // Rewards & Identity State
+  const { addItem } = useContext(CartContext);
   const [isEditing, setIsEditing] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isExchanging, setIsExchanging] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [copiedId, setCopiedId] = useState(null);
 
   const [wallet, setWallet] = useState({
     walletCoins: 0,
@@ -133,7 +136,7 @@ export default function Profile({ user, logout }) {
     if (isExchanging) return;
     setIsExchanging(true);
     try {
-      const response = await fetch('http://localhost:5000/user/exchange', {
+      const response = await fetch('http://127.0.0.1:5000/user/exchange', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -155,9 +158,24 @@ export default function Profile({ user, logout }) {
     }
   };
 
+  const handleReorder = (order) => {
+    order.items.forEach(item => {
+      addItem(item);
+    });
+    alert('🛒 Items from this order added to your bag!');
+    navigate('/cart');
+  };
+
+  const copyOrderId = (id, e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
   return (
-    <div className="profile-container">
-      <div className="profile-card">
+    <div className="profile-page-container">
+      <div className="luxury-profile-card">
         <header className="profile-header">
           <div className="profile-header-left">
             <div className="avatar-container">
@@ -291,51 +309,6 @@ export default function Profile({ user, logout }) {
           </div>
         </section>
 
-        <section className="notifications-history" style={{ marginTop: '30px' }}>
-          <h3>🔔 RECENT NOTIFICATIONS</h3>
-          <div className="notification-list" style={{
-            background: '#fff',
-            borderRadius: '12px',
-            padding: '10px',
-            border: '1px solid #f0f0f5'
-          }}>
-            {notifications.length === 0 ? (
-              <p style={{ textAlign: 'center', color: '#94969f', padding: '20px' }}>No recent notifications.</p>
-            ) : (
-              notifications.map((notif) => (
-                <div key={notif._id} className="notif-item" style={{
-                  padding: '12px',
-                  borderBottom: '1px solid #f5f5f6',
-                  display: 'flex',
-                  gap: '12px',
-                  alignItems: 'center'
-                }}>
-                  <div className="notif-icon-circle" style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    background: notif.type === 'SMS' ? '#e6f7f3' : '#fff1f0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '14px'
-                  }}>
-                    {notif.type === 'SMS' ? <Smartphone size={16} color="#20bd99" /> : <Mail size={16} color="#ff3f6c" />}
-                  </div>
-                  <div className="notif-content" style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                      <strong style={{ fontSize: '13px' }}>{notif.title}</strong>
-                      <span style={{ fontSize: '10px', color: '#94969f' }}>{new Date(notif.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                    </div>
-                    <p style={{ fontSize: '12px', color: '#696e79', margin: 0 }}>{notif.message}</p>
-                    <span style={{ fontSize: '10px', color: '#20bd99', fontWeight: 'bold' }}>SENT TO: {notif.target}</span>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
-
         <section className="purchase-history">
           <h3>📦 PURCHASE HISTORY</h3>
           <div className="orders-grid">
@@ -346,23 +319,32 @@ export default function Profile({ user, logout }) {
                 <div key={order._id || order.id} className="order-card" onClick={() => setSelectedOrder(order)}>
                   <div className="order-header">
                     <div className="order-meta">
-                      <div className="order-id">Order ID: #{order.orderId || order.id}</div>
+                      <div className="order-id-row">
+                        <span className="order-id-text">Order ID: #{order.orderId || order.id}</span>
+                        <button className="copy-btn-mini" onClick={(e) => copyOrderId(order.orderId || order.id, e)}>
+                          {copiedId === (order.orderId || order.id) ? <Check size={12} color="#20bd99" /> : <Copy size={12} />}
+                        </button>
+                      </div>
                       <div className="order-date">{new Date(order.date || order.createdAt).toLocaleDateString()}</div>
                     </div>
                     <span className={`order-status status-${(order.status || 'pending').toLowerCase()}`}>
-                      {order.status === 'Confirmed' && '✅ '}
-                      {order.status || 'Confirmed'}
+                      {order.status === 'Confirmed' ? '✅ Confirmed' : order.status}
                     </span>
                   </div>
                   <div className="order-body">
-                    <div className="order-items">
-                      {order.items.length} Items
+                    <div className="order-items-preview">
+                      <div className="item-count">{order.items.length} Items</div>
+                      <div className="item-titles">{order.items.slice(0, 2).map(i => i.title).join(', ')}{order.items.length > 2 && '...'}</div>
                     </div>
-                    <div className="order-total">
-                      <span>Total Amount</span>
-                      ₹{order.total.toLocaleString()}
+                    <div className="order-actions-right">
+                      <div className="order-total-mini">₹{order.total.toLocaleString()}</div>
+                      <div className="btn-group-mini">
+                        <button className="btn-track-mini">TRACK ORDER <ChevronRight size={14} /></button>
+                        <button className="btn-reorder-mini" onClick={(e) => { e.stopPropagation(); handleReorder(order); }}>
+                          <RotateCcw size={12} /> BUY AGAIN
+                        </button>
+                      </div>
                     </div>
-                    <button className="btn-track-mini">TRACK ORDER <ChevronRight size={14} /></button>
                   </div>
                 </div>
               ))

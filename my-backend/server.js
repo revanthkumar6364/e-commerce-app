@@ -15,7 +15,7 @@ const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 app.use(cors({ origin: clientUrl }));
 
 // MongoDB connection
-const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/demo_auth_db';
+const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/ecommerce';
 
 const connectDB = async () => {
   try {

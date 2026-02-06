@@ -41,6 +41,7 @@ import Navbar from './components/Navbar';
 import Concierge from './components/Concierge';
 import ActivityFeed from './components/ActivityFeed';
 import ScrollToTop from './components/ScrollToTop';
+import SMSNotifications from './components/SMSNotifications';
 
 function App() {
   useEffect(() => {
@@ -89,6 +90,7 @@ function App() {
             </Routes>
           </main>
           <Concierge />
+          <SMSNotifications />
           <Footer />
         </BrowserRouter>
       </CartProvider>

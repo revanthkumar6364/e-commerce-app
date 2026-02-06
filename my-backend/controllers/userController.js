@@ -156,8 +156,23 @@ const userController = {
             await user.save();
 
             // Simulate Email/SMS Notification
-            console.log(`[NOTIFICATION SERVICE] Sending order confirmation email to: ${user.email}`);
-            console.log(`[NOTIFICATION SERVICE] Sending SMS alert to: ${user.phone || 'N/A'}`);
+            console.log('\n' + '='.repeat(50));
+            console.log('📱 [SMS SIMULATION] TO: ' + (user.phone || 'N/A'));
+            const smsMessage = `Order #${orderId} confirmed! Luxury is on its way. ✨`;
+            console.log('MESSAGE: ' + smsMessage);
+            console.log('='.repeat(50) + '\n');
+
+            // Save to Notification model for simulation inbox
+            const orderNotif = new Notification({
+                userId: user._id,
+                type: 'SMS',
+                title: 'Order Confirmed',
+                message: smsMessage,
+                target: user.phone || '+919876543210',
+                status: 'SENT'
+            });
+            await orderNotif.save();
+
             console.log(`[REWARDS] User earned ${earnedCoins} coins. New balance: ${user.walletCoins}. Tier: ${user.tier}`);
 
             res.status(201).json({
@@ -199,6 +214,11 @@ const userController = {
             });
             await notification.save();
 
+            console.log('\n' + '='.repeat(50));
+            console.log(`📱 [SMS SIMULATION] TO: ${target}`);
+            console.log(`MESSAGE: Your Luxury OTP is: ${otp}. Do not share.`);
+            console.log('='.repeat(50) + '\n');
+
             console.log(`[BACKEND OTP] OTP ${otp} sent via ${method} to ${target}`);
 
             res.status(200).json({
@@ -216,19 +236,33 @@ const userController = {
         try {
             const userId = req.headers['user-id'];
             const { otp } = req.body;
+            console.log(`\n--- VERIFYING OTP ---`);
+            console.log(`User ID: ${userId}`);
+            console.log(`OTP Provided: ${otp}`);
 
             const user = await User.findById(userId);
-            if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+            if (!user) {
+                console.log('User not found in DB');
+                return res.status(404).json({ success: false, message: 'User not found' });
+            }
+
+            console.log(`User found: ${user.name}`);
+            console.log(`Expected OTP: ${user.otp}`);
+            console.log(`Current Time: ${new Date()}`);
+            console.log(`Expiry: ${user.otpExpiry}`);
 
             if (!user.otp || user.otp !== otp || new Date() > user.otpExpiry) {
+                console.log('Verification failed: Invalid or expired OTP');
                 return res.status(400).json({ success: false, message: 'Invalid or expired OTP' });
             }
 
+            console.log('Verification successful! Clearing OTP fields...');
             // Clear OTP after successful use
             user.otp = null;
             user.otpExpiry = null;
             await user.save();
 
+            console.log('User model saved. Sending success response.');
             res.status(200).json({
                 success: true,
                 message: 'OTP verified successfully'
@@ -245,17 +279,79 @@ const userController = {
             const userId = req.headers['user-id'];
             if (!userId) return res.status(401).json({ success: false, message: 'User ID required' });
 
-            const notifications = await Notification.find({ userId: userId }).sort({ createdAt: -1 }).limit(20);
+            const mongoose = require('mongoose');
+            const notifications = await Notification.find({
+                $or: [
+                    { userId: userId },
+                    { userId: new mongoose.Types.ObjectId(userId) }
+                ]
+            }).sort({ createdAt: -1 }).limit(20);
 
             res.status(200).json({
                 success: true,
                 notifications
             });
         } catch (error) {
-            console.error('Get Notifications Error:', error);
+            console.error('Fetch Notifications Error:', error);
             res.status(500).json({ success: false, message: 'Server error' });
         }
     },
+
+    // Delete a notification
+    deleteNotification: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const userId = req.headers['user-id'];
+
+            const notification = await Notification.findOneAndDelete({ _id: id, userId: userId });
+            if (!notification) return res.status(404).json({ success: false, message: 'Notification not found' });
+
+            res.status(200).json({ success: true, message: 'Notification deleted' });
+        } catch (error) {
+            console.error('Delete Notification Error:', error);
+            res.status(500).json({ success: false, message: 'Server error' });
+        }
+    },
+
+    // Trigger promotional notifications
+    sendPromotions: async (req, res) => {
+        try {
+            const userId = req.headers['user-id'];
+            const user = await User.findById(userId);
+            if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+
+            const promos = [
+                {
+                    title: '🔥 TOP SALES: Nike Dunk Hi',
+                    message: `Luxury Pick! The Nike Dunk Hi Retro is trending at 30% OFF. Shop the vault now!`,
+                },
+                {
+                    title: '💎 VIP DISCOUNT: +500 Coins',
+                    message: `Exclusive daily highlight: Complete a purchase today and get 500 extra Aura Coins!`,
+                }
+            ];
+
+            const notifications = [];
+            for (const p of promos) {
+                const notif = new Notification({
+                    userId: user._id,
+                    type: 'SMS',
+                    title: p.title,
+                    message: p.message,
+                    target: user.phone || '+919876543210',
+                    status: 'SENT'
+                });
+                await notif.save();
+                notifications.push(notif);
+            }
+
+            res.status(200).json({ success: true, message: 'Promotions sent successfully', notifications });
+        } catch (error) {
+            console.error('Send Promotions Error:', error);
+            res.status(500).json({ success: false, message: 'Server error' });
+        }
+    },
+
 
     // Get user orders
     getOrders: async (req, res) => {

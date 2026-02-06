@@ -171,25 +171,34 @@ export default function Cart() {
 
   const onPaymentVerify = async () => {
     setIsPlacingOrder(true);
+    console.log('--- ORDER PLACEMENT START ---');
+    console.log('Items:', items);
+    console.log('Total:', finalTotal);
+
     try {
-      const response = await fetch('http://localhost:5000/user/orders', {
+      console.log('Calling /user/orders...');
+      const response = await fetch('http://127.0.0.1:5000/user/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'user-id': '65c1a2b3e4b0c1a2b3e4b0c1' // Using the same mock ID for now
+          'user-id': '65c1a2b3e4b0c1a2b3e4b0c1'
         },
         body: JSON.stringify({
           items: items,
           totalAmount: finalTotal,
           address: {
-            name: user?.name || 'Aura Customer',
-            address: '12 Luxury Lane, Beverly Hills, CA 90210' // Mock for now
+            name: selectedAddress?.name || 'Aura Customer',
+            address: selectedAddress?.address || '12 Luxury Lane, Beverly Hills, CA 90210'
           }
         })
       });
 
+      console.log('Order Response Status:', response.status);
       const data = await response.json();
+      console.log('Order Response Data:', data);
+
       if (data.success) {
+        console.log('Order Success! Setting data and clearing cart.');
         setOrderSuccess({
           orderId: data.order.orderId,
           total: data.order.total,
@@ -199,11 +208,12 @@ export default function Cart() {
         clearCart();
         setShowVerification(false);
       } else {
+        console.error('Order Failed on Server:', data.message);
         alert(data.message || 'Payment failed');
       }
     } catch (error) {
-      console.error('Order Placement Error:', error);
-      alert('Error connecting to server');
+      console.error('CRITICAL Order Placement Error:', error);
+      alert(`Error connecting to server: ${error.message}`);
     } finally {
       setIsPlacingOrder(false);
     }

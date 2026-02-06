@@ -208,6 +208,9 @@ export default function Products() {
                   <Link to={`/products/${product.id}`} className="product-card-link-myntra">
                     <div className="product-card-image-myntra">
                       <img src={product.image} alt={product.title} />
+                      {ratingCounts[product.id] > 3000 && (
+                        <div className="top-sales-badge">TOP SALES</div>
+                      )}
                       <button
                         className={`wishlist-btn-myntra ${isWishlisted ? 'active' : ''}`}
                         onClick={(e) => handleWishlist(product, e)}

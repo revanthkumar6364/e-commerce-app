@@ -17,8 +17,14 @@ router.post('/orders', userController.placeOrder);
 // GET /user/notifications - Get user notifications
 router.get('/notifications', userController.getNotifications);
 
+// DELETE /user/notifications/:id - Delete a notification
+router.delete('/notifications/:id', userController.deleteNotification);
+
 // POST /user/send-otp - Send payment OTP
 router.post('/send-otp', userController.sendOTP);
+
+// POST /user/send-promotions - Send daily promotions
+router.post('/send-promotions', userController.sendPromotions);
 
 // POST /user/verify-otp - Verify payment OTP
 router.post('/verify-otp', userController.verifyOTP);
