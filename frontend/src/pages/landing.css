@@ -325,106 +325,90 @@
 }
 
 
-/* 4. OMG BRANDS */
+/* 4. BRAND CARDS - UNIFIED ALIGNMENT FIX */
 .brands-section {
   max-width: 1400px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.section-heading {
-  font-size: 24px;
-  font-weight: 700;
-  color: #282c3f;
-  margin-bottom: 25px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin: 60px auto;
+  padding: 0 40px;
 }
 
 .brands-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(7, 1fr);
   gap: 20px;
+  perspective: 1200px;
+}
+
+@media (max-width: 1200px) {
+  .brands-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
 }
 
 .brand-card {
-  background: #fff;
-  height: 200px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  border: 1px solid #eaeaec;
-  border-radius: 12px;
+  text-decoration: none;
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
-  perspective: 1200px;
-  padding: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.brand-card::after {
-  content: "";
-  position: absolute;
-  top: -110%;
-  left: -110%;
-  width: 220%;
-  height: 220%;
-  background: linear-gradient(45deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0) 45%,
-      rgba(255, 255, 255, 0.6) 50%,
-      rgba(255, 255, 255, 0) 55%,
-      transparent 100%);
-  transform: rotate(-45deg);
-  transition: all 0.7s;
-  pointer-events: none;
-}
-
-.brand-card:hover {
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-  border-color: #ff3f6c;
-  border-width: 2px;
-  transform: translateY(-8px);
-}
-
-.brand-card:hover::after {
-  top: -20%;
-  left: -20%;
+  transition: transform 0.3s ease;
 }
 
 .brand-logo-area {
-  height: 90px;
+  width: 100%;
+  height: 150px;
+  /* Fixed height! Ensures perfect label alignment */
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
+  padding: 20px;
+  margin-bottom: 12px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
 .brand-logo-img {
-  max-width: 85%;
+  max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  filter: grayscale(100%);
-  opacity: 0.7;
-}
-
-.brand-card:hover .brand-logo-img {
-  transform: scale(1.15) translateZ(40px);
-  filter: grayscale(0%);
-  opacity: 1;
+  /* Full fit without distortion */
+  transform: translateZ(20px);
+  transition: transform 0.5s ease;
 }
 
 .brand-offer {
+  font-size: 14px;
+  font-weight: 600;
+  color: #282c3f;
+  text-align: center;
+  transition: color 0.3s;
+}
+
+/* Hover States - Integrated 3D effect */
+.brand-card:hover .brand-logo-area {
+  transform: translateY(-5px) rotateX(10deg);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-color: #ff3f6c;
+}
+
+.brand-card:hover .brand-logo-img {
+  transform: translateZ(40px) scale(1.1);
+}
+
+.brand-card:hover .brand-offer {
   color: #ff3f6c;
-  font-weight: 800;
-  font-size: 15px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 

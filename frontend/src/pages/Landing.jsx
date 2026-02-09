@@ -180,7 +180,7 @@ export default function Landing() {
       {/* 4. OMG! BRANDS */}
       <section className="brands-section">
         <h2 className="section-heading">OMG! DEALS</h2>
-        <div className="brands-grid">
+        <div className="brands-grid" style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
           {BRANDS.map((brand, i) => (
             <Link to={`/products?brands=${encodeURIComponent(brand.name)}`} key={i} className="brand-card">
               <div className="brand-logo-area">

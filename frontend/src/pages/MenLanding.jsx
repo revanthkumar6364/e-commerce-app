@@ -39,12 +39,36 @@ const MEN_CATS = MEN_CATEGORIES;
 
 // --- MEN'S BRANDS ---
 const MEN_BRANDS = [
-    { name: 'Nike', offer: 'Flat 40% Off' },
-    { name: 'Adidas', offer: 'Min 50% Off' },
-    { name: 'Puma', offer: 'Under ₹1499' },
-    { name: 'Levi\'s', offer: 'Buy 1 Get 1' },
-    { name: 'Calvin Klein', offer: 'Flat 30% Off' },
-    { name: 'Tommy Hilfiger', offer: 'New Arrivals' }
+    {
+        name: 'Nike',
+        offer: 'Flat 40% Off',
+        logo: '/images/logos/nike.png'
+    },
+    {
+        name: 'Adidas',
+        offer: 'Min 50% Off',
+        logo: '/images/logos/adidas.png'
+    },
+    {
+        name: 'Puma',
+        offer: 'Under ₹1499',
+        logo: '/images/logos/puma.png'
+    },
+    {
+        name: 'Levi\'s',
+        offer: 'Buy 1 Get 1',
+        logo: '/images/logos/levis.png'
+    },
+    {
+        name: 'Calvin Klein',
+        offer: 'Flat 30% Off',
+        logo: 'https://images.unsplash.com/photo-1582533081023-455b706f9798?w=800&q=80'
+    },
+    {
+        name: 'Tommy Hilfiger',
+        offer: 'New Arrivals',
+        logo: 'https://images.unsplash.com/photo-1555529733-0e670560f7e1?w=800&q=80'
+    }
 ];
 
 export default function MenLanding() {
@@ -160,11 +184,11 @@ export default function MenLanding() {
             {/* MEN'S BRANDS */}
             <section className="brands-section">
                 <h2 className="section-heading">MEN'S TOP BRANDS</h2>
-                <div className="brands-grid">
+                <div className="brands-grid" style={{ gridTemplateColumns: 'repeat(6, 1fr)' }}>
                     {MEN_BRANDS.map((brand, i) => (
                         <div key={i} className="brand-card">
                             <div className="brand-logo-area">
-                                <h3>{brand.name}</h3>
+                                <img src={brand.logo} alt={brand.name} className="brand-logo-img" />
                             </div>
                             <div className="brand-offer">
                                 {brand.offer}

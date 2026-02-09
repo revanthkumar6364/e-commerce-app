@@ -133,7 +133,7 @@ export const MEN_CATEGORIES = [
     {
         id: 'Belts',
         label: 'Belts',
-        image: 'https://images.unsplash.com/photo-1624222247344-5447a1a6e5d3?w=600&q=80',
+        image: '/images/belt-3d.png',
         link: '/products?category=fashion&sub=Men&type=Belts'
     },
     {
