@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { Instagram, Twitter, Facebook, Youtube, Apple, ShieldCheck, RotateCcw } from 'lucide-react';
 import './footer.css';
 
@@ -8,7 +9,7 @@ export default function Footer() {
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (email) {
-      alert('Thank you for subscribing!');
+      toast.success('Thank you for subscribing!');
       setEmail('');
     }
   };

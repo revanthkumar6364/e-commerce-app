@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ShieldCheck, Smartphone, Mail, X } from 'lucide-react';
 import './cart.css';
 
-export default function PaymentVerificationModal({ email, phone, onVerify, onClose }) {
+export default function PaymentVerificationModal({ onVerify, onClose }) {
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [isVerifying, setIsVerifying] = useState(false);
     const [method, setMethod] = useState('email'); // 'email' or 'sms'
@@ -73,6 +73,7 @@ export default function PaymentVerificationModal({ email, phone, onVerify, onClo
     }, [resendTimer]);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         sendOTP();
     }, [method]);
 

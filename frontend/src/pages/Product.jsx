@@ -1,8 +1,10 @@
 import { useState, useContext, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { getProductById } from '../data/products';
 import { CartContext } from '../context/CartContext';
 import api from '../utils/api';
+import StickyProductBar from '../components/StickyProductBar';
 import './product.css';
 
 export default function Product() {
@@ -65,7 +67,7 @@ export default function Product() {
     for (let i = 0; i < qty; i++) {
       addItem({ ...p, selectedColor, selectedSize });
     }
-    alert(`✅ Added ${qty} item(s) to cart`);
+    toast.success(`✅ Added ${qty} item(s) to cart`);
   };
 
   // const shareText = `${p.title} - ₹${p.price} - ` + (typeof window !== 'undefined' ? window.location.href : '');
@@ -75,19 +77,19 @@ export default function Product() {
       navigator.share({ title: p.title, text: `${p.title} - ₹${p.price}`, url: window.location.href }).catch(() => { });
       return;
     }
-    navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied to clipboard'));
+    navigator.clipboard.writeText(window.location.href).then(() => toast.success('Link copied to clipboard'));
   }
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    if (!newReview.userName || !newReview.comment) return alert('Please fill all fields');
+    if (!newReview.userName || !newReview.comment) return toast.error('Please fill all fields');
     setSubmitting(true);
     try {
       const { data } = await api.post(`/products/${p.id}/reviews`, newReview);
       if (data.success) {
         setReviews([data.review, ...reviews]);
         setNewReview({ rating: 5, comment: '', userName: '' });
-        alert('Review added successfully!');
+        toast.success('Review added successfully!');
       }
     } catch (err) {
       console.error('Review submit error:', err);
@@ -101,7 +103,9 @@ export default function Product() {
       {/* LEFT: IMMERSIVE GALLERY (Scrollable) */}
       <div className="cinematic-gallery">
         <div className="gallery-scroll-container">
-          <img src={currentImage} alt={p.title} className="cinema-hero-img" />
+          <div className="cinema-hero-wrapper">
+            <img src={currentImage} alt={p.title} className="cinema-hero-img" />
+          </div>
           {/* Duplicate images to simulate a rich gallery if none exist */}
           {(p.images && p.images.length > 0 ? p.images : [p.image, p.image]).map((img, i) => (
             <img key={i} src={img} alt="Detail view" className="cinema-detail-img" />
@@ -247,6 +251,7 @@ export default function Product() {
           </div>
         </div>
       </div>
+      <StickyProductBar product={p} onAddToCart={handleAddToCart} />
     </div>
   );
 }

@@ -16,13 +16,13 @@ export const WOMEN_CATEGORIES = [
     {
         id: 'Dresses',
         label: 'Western Dresses',
-        image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&q=80',
+        image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&q=80',
         link: '/products?category=fashion&sub=Women&type=Dresses'
     },
     {
         id: 'Tops',
         label: 'Tops & Tunics',
-        image: 'https://images.unsplash.com/photo-1564257577-05773a89c30d?w=600&q=80',
+        image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600&q=80',
         link: '/products?category=fashion&sub=Women&type=Tops'
     },
     {
@@ -103,7 +103,7 @@ export const MEN_CATEGORIES = [
     {
         id: 'Trousers',
         label: 'Casual Trousers',
-        image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80',
+        image: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=600&q=80',
         link: '/products?category=fashion&sub=Men&type=Trousers'
     },
     {
@@ -121,7 +121,7 @@ export const MEN_CATEGORIES = [
     {
         id: 'FormalShoes',
         label: 'Formal Shoes',
-        image: 'https://images.unsplash.com/photo-1614252235316-8c857d38d5e7?w=600&q=80',
+        image: 'https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=600&q=80',
         link: '/products?category=fashion&sub=Men&type=Formal Shoes'
     },
     {
@@ -133,13 +133,13 @@ export const MEN_CATEGORIES = [
     {
         id: 'Belts',
         label: 'Belts',
-        image: '/images/belt-3d.png',
+        image: 'https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=600&q=80',
         link: '/products?category=fashion&sub=Men&type=Belts'
     },
     {
         id: 'Perfumes',
         label: 'Perfumes',
-        image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80',
+        image: 'https://images.unsplash.com/photo-1594035910387-fea4779426e9?w=600&q=80',
         link: '/products?category=beauty&type=Fragrance'
     },
     {
@@ -190,7 +190,7 @@ export const KIDS_CATEGORIES = [
     {
         id: 'KidsShoes',
         label: 'Kids Sports Shoes',
-        image: 'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=600&q=80',
+        image: 'https://images.unsplash.com/photo-1617415255476-8805f4299dee?w=600&q=80',
         link: '/products?category=fashion&sub=Kids&type=Kids Sports Shoes'
     },
     {
@@ -208,7 +208,7 @@ export const KIDS_CATEGORIES = [
     {
         id: 'ActionFigures',
         label: 'Action Figures',
-        image: 'https://images.unsplash.com/photo-1581129724980-2ab2153c3d8d?w=600&q=80',
+        image: 'https://images.unsplash.com/photo-1542442828-287217bfb842?w=600&q=80',
         link: '/products?category=fashion&sub=Kids&type=Action Figures'
     }
 ];

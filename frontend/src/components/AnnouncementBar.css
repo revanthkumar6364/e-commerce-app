@@ -1,0 +1,34 @@
+.announcement-bar {
+    background: #000;
+    color: #fff;
+    font-size: 13px;
+    padding: 8px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 1001;
+    /* Above navbar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.announcement-content {
+    flex: 1;
+}
+
+.announcement-close {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    position: absolute;
+    right: 20px;
+}
+
+.announcement-close:hover {
+    color: #fff;
+}

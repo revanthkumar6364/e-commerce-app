@@ -25,16 +25,19 @@
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
+    /* Reduced from 30px */
 }
 
 .nav-links {
     display: flex;
-    gap: 25px;
+    gap: 20px;
+    /* Reduced from 25px */
 }
 
 .nav-links a {
-    font-size: 14px;
+    font-size: 13px;
+    /* Slightly smaller to fit */
     font-weight: 700;
     color: #282c3f;
     text-transform: uppercase;
@@ -44,11 +47,28 @@
     padding-top: 30px;
     border-bottom: 4px solid transparent;
     transition: all 0.2s;
+    white-space: nowrap;
+    /* Prevent wrapping */
 }
 
+/* Pink Underline on Hover */
 .nav-links a:hover {
     border-bottom-color: var(--primary);
-    /* Pink Underline on Hover */
+}
+
+/* Active Link State */
+.nav-links a.nav-active {
+    border-bottom-color: var(--primary);
+    color: #282c3f;
+    /* Keep text color black/dark */
+    font-weight: 800;
+}
+
+.nav-highlight {
+    background: linear-gradient(90deg, #ff3f6c, #ff9a8b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800 !important;
 }
 
 .nav-item-wrapper {
@@ -61,8 +81,10 @@
 /* 2. Center (Search) */
 .nav-search-container {
     flex: 1;
-    max-width: 500px;
-    margin: 0 40px;
+    max-width: 400px;
+    /* Reduced max-width */
+    margin: 0 20px;
+    /* Reduced margin */
 }
 
 .nav-search-box {
@@ -245,7 +267,104 @@
     display: block;
 }
 
-.mega-menu-link:hover {
-    color: #000;
-    font-weight: 600;
+
+/* Search Suggestions Dropdown */
+.search-suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #eaeaec;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    z-index: 1001;
+    margin-top: 2px;
+}
+
+.search-suggestions-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-suggestions-dropdown li {
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f5f5f6;
+    transition: background 0.2s;
+}
+
+.search-suggestions-dropdown li:last-child {
+    border-bottom: none;
+}
+
+.search-suggestions-dropdown li:hover {
+    background: #f9f9fa;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.suggestion-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.suggestion-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion-title {
+    font-size: 14px;
+    color: #282c3f;
+    font-weight: 500;
+}
+
+.suggestion-brand {
+    font-size: 12px;
+    color: #94969f;
+}
+
+/* Clear Search Button */
+.clear-search-btn {
+    background: none;
+    border: none;
+    color: #94969f;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    margin-right: -4px;
+}
+
+.clear-search-btn:hover {
+    color: #282c3f;
+}
+
+/* Update Search Container for Dropdown Positioning */
+.nav-search-container {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 20px;
+    position: relative;
+    /* Essential for absolute positioning of dropdown */
+}
+
+/* Responsive updates for labels */
+@media (max-width: 1200px) {
+    .nav-label {
+        display: none;
+    }
+
+    .action-link {
+        gap: 0;
+    }
 }

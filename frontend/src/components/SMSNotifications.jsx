@@ -7,24 +7,7 @@ export default function SMSNotifications() {
     const [isOpen, setIsOpen] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
 
-    const fetchNotifications = async () => {
-        try {
-            const response = await fetch('http://127.0.0.1:5000/user/notifications', {
-                headers: { 'user-id': '65c1a2b3e4b0c1a2b3e4b0c1' }
-            });
-            const data = await response.json();
-            if (data.success) {
-                // Keep all SMS, including promotional ones
-                const newNotifs = data.notifications.filter(n => n.type === 'SMS');
-                if (newNotifs.length > notifications.length) {
-                    setUnreadCount(prev => prev + (newNotifs.length - notifications.length));
-                }
-                setNotifications(newNotifs);
-            }
-        } catch (error) {
-            console.error('Error fetching SMS:', error);
-        }
-    };
+
 
     const deleteNotif = async (id, e) => {
         e.stopPropagation();
@@ -51,6 +34,25 @@ export default function SMSNotifications() {
             fetchNotifications();
         } catch (error) {
             console.error('Promo trigger error:', error);
+        }
+    };
+
+    const fetchNotifications = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/user/notifications', {
+                headers: { 'user-id': '65c1a2b3e4b0c1a2b3e4b0c1' }
+            });
+            const data = await response.json();
+            if (data.success) {
+                // Keep all SMS, including promotional ones
+                const newNotifs = data.notifications.filter(n => n.type === 'SMS');
+                if (newNotifs.length > notifications.length) {
+                    setUnreadCount(prev => prev + (newNotifs.length - notifications.length));
+                }
+                setNotifications(newNotifs);
+            }
+        } catch (error) {
+            console.error('Error fetching SMS:', error);
         }
     };
 

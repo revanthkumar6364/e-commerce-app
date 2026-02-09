@@ -149,6 +149,18 @@
   color: #ff527b;
 }
 
+.btn-move-bag.disabled {
+  background: #f5f5f6;
+  color: #94969f;
+  cursor: not-allowed;
+  border-top: 1px solid #eaeaec;
+}
+
+.btn-move-bag.disabled:hover {
+  background: #f5f5f6;
+  color: #94969f;
+}
+
 /* EMPTY STATE */
 .wishlist-empty {
   text-align: center;

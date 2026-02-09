@@ -1,0 +1,92 @@
+.sticky-product-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    z-index: 999;
+    transform: translateY(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.sticky-product-bar.visible {
+    transform: translateY(0);
+}
+
+.sticky-bar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sticky-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sticky-thumb {
+    width: 40px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.sticky-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.sticky-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #282c3f;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+.sticky-price {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.sticky-add-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sticky-add-btn:hover {
+    background: #333;
+}
+
+@media (max-width: 768px) {
+    .sticky-product-bar {
+        top: auto;
+        bottom: 0;
+        transform: translateY(100%);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: none;
+        padding: 15px 20px;
+    }
+
+    .sticky-title {
+        max-width: 150px;
+    }
+}

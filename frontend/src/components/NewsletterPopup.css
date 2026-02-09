@@ -1,0 +1,150 @@
+.newsletter-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    padding: 1rem;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.newsletter-box {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-width: 28rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.newsletter-content {
+    padding: 2rem;
+    width: 100%;
+    position: relative;
+}
+
+.newsletter-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: #9ca3af;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.newsletter-close-btn:hover {
+    color: #1f2937;
+}
+
+.newsletter-icon-wrapper {
+    margin: 0 auto 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: #eff6ff;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+}
+
+.newsletter-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.newsletter-desc {
+    text-align: center;
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.newsletter-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.newsletter-input:focus {
+    border-color: #000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.newsletter-submit-btn {
+    width: 100%;
+    background-color: #000;
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.newsletter-submit-btn:hover {
+    background-color: #1f2937;
+    transform: translateY(-2px);
+}
+
+.newsletter-privacy {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 1rem;
+}
+
+.newsletter-success {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.success-check {
+    color: #10b981;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.success-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.success-desc {
+    color: #4b5563;
+    margin-top: 0.5rem;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

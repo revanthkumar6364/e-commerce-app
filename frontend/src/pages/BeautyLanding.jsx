@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
 import { ChevronLeft, ChevronRight, Zap } from 'lucide-react';
+import FadeInImage from '../components/FadeInImage';
 import './landing.css';
 
 // --- BEAUTY HERO SLIDES ---
 const BEAUTY_SLIDES = [
     {
         id: 1,
-        image: 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=1600&q=80',
+        image: 'https://images.unsplash.com/photo-1596462502278-27bfdd403348?w=1600&q=80', // Premium 3D Podium aesthetic
         title: 'LUXURY BEAUTY',
         subtitle: 'Top International Brands | Up to 40% Off',
         cta: 'Shop Beauty',
@@ -39,18 +40,54 @@ const BEAUTY_CATS = [
     { id: 'Skincare', label: 'Skincare', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&q=80' },
     { id: 'Haircare', label: 'Haircare', image: 'https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=400&q=80' },
     { id: 'Fragrance', label: 'Perfumes', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&q=80' },
-    { id: 'MenGrooming', label: 'Men\'s', image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=400&q=80' },
-    { id: 'Tools', label: 'Appliances', image: 'https://images.unsplash.com/photo-1546704346-4cb7a2eb7f4b?w=400&q=80' }
+    { id: 'BathBody', label: 'Bath & Body', image: 'https://images.unsplash.com/photo-1544367563-12123d8965cd?w=400&q=80' },
+    { id: 'Natural', label: 'Natural', image: 'https://images.unsplash.com/photo-1556228578-8c89e6fb2f56?w=400&q=80' }
 ];
 
 // --- BEAUTY BRANDS ---
 const BEAUTY_BRANDS = [
-    { name: 'MAC', offer: 'Free Lipstick' },
-    { name: 'Lakme', offer: 'Flat 20% Off' },
-    { name: 'Maybelline', offer: 'Buy 2 Get 1' },
-    { name: 'L\'Oreal', offer: 'Hair Spa Kit' },
-    { name: 'Clinique', offer: 'Gift Set' },
-    { name: 'The Body Shop', offer: 'Flat 25% Off' }
+    {
+        id: 1,
+        name: 'MAC',
+        logo: 'https://cdn.worldvectorlogo.com/logos/mac-cosmetics-1.svg',
+        image: 'https://images.unsplash.com/photo-1596462502278-27bfdd403348?w=800&q=80', // High-end makeup
+        offer: 'Free Lipstick'
+    },
+    {
+        id: 2,
+        name: 'Lakme',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/Lakm%C3%A9_logo.jpg', // Fallback to JPG as vector is hard to find direct
+        image: 'https://images.unsplash.com/photo-1522335208468-9732264197c8?w=800&q=80', // Fashion week vibe
+        offer: 'Flat 20% Off'
+    },
+    {
+        id: 3,
+        name: 'Maybelline',
+        logo: 'https://cdn.worldvectorlogo.com/logos/maybelline.svg',
+        image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80', // Urban chic
+        offer: 'Buy 2 Get 1'
+    },
+    {
+        id: 4,
+        name: 'L\'Oreal',
+        logo: 'https://cdn.worldvectorlogo.com/logos/loreal.svg',
+        image: 'https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=800&q=80', // Hair luxury
+        offer: 'Hair Spa Kit'
+    },
+    {
+        id: 5,
+        name: 'Clinique',
+        logo: 'https://cdn.worldvectorlogo.com/logos/clinique.svg',
+        image: 'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?w=800&q=80', // Clean skincare
+        offer: 'Gift Set'
+    },
+    {
+        id: 6,
+        name: 'The Body Shop',
+        logo: 'https://cdn.worldvectorlogo.com/logos/the-body-shop-2.svg',
+        image: 'https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?w=800&q=80', // Nature/Botanical
+        offer: 'Flat 25% Off'
+    }
 ];
 
 export default function BeautyLanding() {
@@ -94,7 +131,7 @@ export default function BeautyLanding() {
                 <div className="hero-slides-wrapper" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                     {BEAUTY_SLIDES.map((slide) => (
                         <div key={slide.id} className="hero-slide">
-                            <img src={slide.image} alt={slide.title} className="hero-img-desktop" />
+                            <FadeInImage src={slide.image} alt={slide.title} className="hero-img-desktop" />
                             <div className="hero-overlay-content">
                                 <h2 className="animate-fade-in-up">{slide.title}</h2>
                                 <p className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>{slide.subtitle}</p>
@@ -119,7 +156,7 @@ export default function BeautyLanding() {
                     {BEAUTY_CATS.map(cat => (
                         <Link key={cat.id} to={`/products?category=beauty&type=${cat.id}`} className="circle-item">
                             <div className="circle-img-wrapper">
-                                <img src={cat.image} alt={cat.label} />
+                                <FadeInImage src={cat.image} alt={cat.label} />
                             </div>
                             <span>{cat.label}</span>
                         </Link>
@@ -144,7 +181,7 @@ export default function BeautyLanding() {
                     {beautyDeals.map(p => (
                         <Link to={`/products/${p.id}`} key={p.id} className="deal-card">
                             <div className="deal-img-box">
-                                <img src={p.image} alt={p.title} />
+                                <FadeInImage src={p.image} alt={p.title} />
                                 <span className="deal-badge">{p.randomDiscount}% OFF</span>
                             </div>
                             <div className="deal-info">
@@ -164,10 +201,13 @@ export default function BeautyLanding() {
             <section className="brands-section">
                 <h2 className="section-heading">TOP BEAUTY BRANDS</h2>
                 <div className="brands-grid">
-                    {BEAUTY_BRANDS.map((brand, i) => (
-                        <div key={i} className="brand-card">
+                    {BEAUTY_BRANDS.map((brand) => (
+                        <div key={brand.id} className="brand-card">
                             <div className="brand-logo-area">
-                                <h3>{brand.name}</h3>
+                                <img src={brand.logo} alt={brand.name} className="brand-logo-img" />
+                            </div>
+                            <div className="brand-image-preview">
+                                <FadeInImage src={brand.image} alt={`${brand.name} Aesthetic`} />
                             </div>
                             <div className="brand-offer">
                                 {brand.offer}
@@ -182,20 +222,20 @@ export default function BeautyLanding() {
                 <h2 className="section-heading">BEAUTY TRENDS</h2>
                 <div className="trending-grid">
                     <Link to="/products?category=beauty" className="trend-item large">
-                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?w=800&q=80" alt="Beauty Trending" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1596462502278-27bfdd403348?w=800&q=80" alt="Beauty Trending" />
                         <div className="trend-overlay">
                             <h3>GLOW UP ESSENTIALS</h3>
                             <span>K-Beauty & More</span>
                         </div>
                     </Link>
                     <Link to="/products?category=beauty" className="trend-item">
-                        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80" alt="Makeup" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&q=80" alt="Makeup" />
                         <div className="trend-overlay">
                             <h3>PARTY MAKEUP</h3>
                         </div>
                     </Link>
                     <Link to="/products?category=beauty" className="trend-item">
-                        <img src="https://images.unsplash.com/photo-1556228720-1987ba83dd3c?w=800&q=80" alt="Serum" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1556228720-1987ba83dd3c?w=800&q=80" alt="Serum" />
                         <div className="trend-overlay">
                             <h3>NIGHT CARE</h3>
                         </div>

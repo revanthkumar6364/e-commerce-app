@@ -4,6 +4,7 @@ import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
 import { KIDS_CATEGORIES } from '../data/categoryImages';
 import { ChevronLeft, ChevronRight, Zap } from 'lucide-react';
+import FadeInImage from '../components/FadeInImage';
 import './landing.css';
 
 // --- KIDS HERO SLIDES ---
@@ -88,7 +89,7 @@ export default function KidsLanding() {
                 <div className="hero-slides-wrapper" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                     {KIDS_SLIDES.map((slide) => (
                         <div key={slide.id} className="hero-slide">
-                            <img src={slide.image} alt={slide.title} className="hero-img-desktop" />
+                            <FadeInImage src={slide.image} alt={slide.title} className="hero-img-desktop" />
                             <div className="hero-overlay-content">
                                 <h2 className="animate-fade-in-up">{slide.title}</h2>
                                 <p className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>{slide.subtitle}</p>
@@ -114,7 +115,7 @@ export default function KidsLanding() {
                     {KIDS_CATS.map(cat => (
                         <Link key={cat.id} to={cat.link} className="category-showcase-card">
                             <div className="category-showcase-img">
-                                <img src={cat.image} alt={cat.label} />
+                                <FadeInImage src={cat.image} alt={cat.label} />
                             </div>
                             <div className="category-showcase-label">
                                 <h3>{cat.label}</h3>
@@ -141,7 +142,7 @@ export default function KidsLanding() {
                     {kidsDeals.map(p => (
                         <Link to={`/products/${p.id}`} key={p.id} className="deal-card">
                             <div className="deal-img-box">
-                                <img src={p.image} alt={p.title} />
+                                <FadeInImage src={p.image} alt={p.title} />
                                 <span className="deal-badge">{p.randomDiscount}% OFF</span>
                             </div>
                             <div className="deal-info">
@@ -179,20 +180,20 @@ export default function KidsLanding() {
                 <h2 className="section-heading">PLAYFUL PICKS</h2>
                 <div className="trending-grid">
                     <Link to="/products?category=fashion&sub=Kids" className="trend-item large">
-                        <img src="https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?w=800&q=80" alt="Kids Trending" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?w=800&q=80" alt="Kids Trending" />
                         <div className="trend-overlay">
                             <h3>PARTY READY</h3>
                             <span>Festive Styles</span>
                         </div>
                     </Link>
                     <Link to="/products?category=fashion&sub=Kids" className="trend-item">
-                        <img src="https://images.unsplash.com/photo-1503919545885-d74981679089?w=800&q=80" alt="Games" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1503919545885-d74981679089?w=800&q=80" alt="Games" />
                         <div className="trend-overlay">
                             <h3>FUN & GAMES</h3>
                         </div>
                     </Link>
                     <Link to="/products?category=fashion&sub=Kids" className="trend-item">
-                        <img src="https://images.unsplash.com/photo-1526315573752-d5951d18f5da?w=800&q=80" alt="Winter" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1526315573752-d5951d18f5da?w=800&q=80" alt="Winter" />
                         <div className="trend-overlay">
                             <h3>WINTER WARMTH</h3>
                         </div>

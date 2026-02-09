@@ -37,7 +37,6 @@ export default function AddressModal({ onClose, onSelectAddress, selectedId }) {
     const [addresses, setAddresses] = useState(MOCK_ADDRESSES);
     const [tempSelected, setTempSelected] = useState(selectedId || 1);
     const [view, setView] = useState('list'); // 'list', 'form', or 'map'
-    const [isLocating, setIsLocating] = useState(false);
     const [pincodeSuggestions, setPincodeSuggestions] = useState([]);
 
     const [formData, setFormData] = useState({
@@ -54,6 +53,7 @@ export default function AddressModal({ onClose, onSelectAddress, selectedId }) {
     useEffect(() => {
         if (formData.pincode.length >= 3) {
             const matches = Object.keys(PINCODE_DATA).filter(p => p.startsWith(formData.pincode));
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setPincodeSuggestions(matches);
 
             // Auto-fill if exact match
@@ -74,7 +74,6 @@ export default function AddressModal({ onClose, onSelectAddress, selectedId }) {
     };
 
     const handleUseLiveLocation = () => {
-        setIsLocating(true);
         setView('map'); // Switch to map-like view
 
         if (navigator.geolocation) {
@@ -89,21 +88,18 @@ export default function AddressModal({ onClose, onSelectAddress, selectedId }) {
                             state: 'Current State',
                             pincode: '560001' // Mock default
                         }));
-                        setIsLocating(false);
                         setView('form'); // Auto-switch back to form
                         alert('Location captured successfully!');
                     }, 1500);
                 },
                 (error) => {
                     console.error('Error getting location:', error);
-                    setIsLocating(false);
                     setView('form');
                     alert('Could not access current location. Please enter manually.');
                 }
             );
         } else {
             alert('Geolocation is not supported by your browser.');
-            setIsLocating(false);
             setView('form');
         }
     };

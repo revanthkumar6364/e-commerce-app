@@ -28,8 +28,22 @@
   object-fit: cover;
 }
 
-.cinema-hero-img {
+.cinema-hero-wrapper {
+  overflow: hidden;
   height: 100vh;
+  cursor: zoom-in;
+}
+
+.cinema-hero-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.cinema-hero-wrapper:hover .cinema-hero-img {
+  transform: scale(1.5);
+  cursor: zoom-in;
 }
 
 .cinema-detail-img {

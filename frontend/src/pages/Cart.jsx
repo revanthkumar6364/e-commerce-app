@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { couponsAndOffers, products } from '../data/products';
 import { ShieldCheck, ChevronDown, Check, X } from 'lucide-react';
@@ -10,7 +10,6 @@ import './cart.css';
 
 export default function Cart() {
   const { items, removeItem, total, clearCart } = useContext(CartContext);
-  const navigate = useNavigate();
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 

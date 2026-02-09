@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
 import { ChevronLeft, ChevronRight, Clock, Zap, Star } from 'lucide-react';
+import FadeInImage from '../components/FadeInImage';
+import NewsletterPopup from '../components/NewsletterPopup';
 import './landing.css';
 
 // --- DATA: HERO SLIDES ---
@@ -95,13 +97,14 @@ export default function Landing() {
 
   return (
     <div className="landing-page-v2">
+      <NewsletterPopup />
 
       {/* 1. HERO CAROUSEL */}
       <section className="hero-carousel-container">
         <div className="hero-slides-wrapper" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
           {HERO_SLIDES.map((slide) => (
             <div key={slide.id} className="hero-slide">
-              <img src={slide.image} alt={slide.title} className="hero-img-desktop" />
+              <FadeInImage src={slide.image} alt={slide.title} className="hero-img-desktop" />
               <div className="hero-overlay-content">
                 <h2 className="animate-fade-in-up">{slide.title}</h2>
                 <p className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>{slide.subtitle}</p>
@@ -134,7 +137,7 @@ export default function Landing() {
           {CATEGORIES.map(cat => (
             <Link key={cat.id} to={`/products?category=${cat.id}`} className="circle-item">
               <div className="circle-img-wrapper">
-                <img src={cat.image} alt={cat.label} />
+                <FadeInImage src={cat.image} alt={cat.label} />
               </div>
               <span>{cat.label}</span>
             </Link>
@@ -160,7 +163,7 @@ export default function Landing() {
           {dealProducts.map(p => (
             <Link to={`/products/${p.id}`} key={p.id} className="deal-card">
               <div className="deal-img-box">
-                <img src={p.image} alt={p.title} />
+                <FadeInImage src={p.image} alt={p.title} />
                 <span className="deal-badge">{p.randomDiscount}% OFF</span>
               </div>
               <div className="deal-info">
@@ -184,7 +187,7 @@ export default function Landing() {
           {BRANDS.map((brand, i) => (
             <Link to={`/products?brands=${encodeURIComponent(brand.name)}`} key={i} className="brand-card">
               <div className="brand-logo-area">
-                <img src={brand.img} alt={brand.name} className="brand-logo-img" />
+                <FadeInImage src={brand.img} alt={brand.name} className="brand-logo-img" />
               </div>
               <div className="brand-offer">
                 {brand.offer}
@@ -200,20 +203,20 @@ export default function Landing() {
         <h2 className="section-heading">TRENDING IN {new Date().toLocaleString('default', { month: 'long' }).toUpperCase()}</h2>
         <div className="trending-grid">
           <Link to="/products?category=fashion" className="trend-item large">
-            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80" alt="Fashion" />
+            <FadeInImage src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80" alt="Fashion" />
             <div className="trend-overlay">
               <h3>SUMMER VIBES</h3>
               <span>UP TO 60% OFF</span>
             </div>
           </Link>
           <Link to="/products?category=electronics" className="trend-item">
-            <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&q=80" alt="Tech" />
+            <FadeInImage src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&q=80" alt="Tech" />
             <div className="trend-overlay">
               <h3>WORK FROM HOME</h3>
             </div>
           </Link>
           <Link to="/products?category=beauty" className="trend-item">
-            <img src="https://images.unsplash.com/photo-1627384113743-6bd5a479fffd?w=1200&q=80" alt="Beauty" />
+            <FadeInImage src="https://images.unsplash.com/photo-1627384113743-6bd5a479fffd?w=1200&q=80" alt="Beauty" />
             <div className="trend-overlay">
               <h3>GLOW UP</h3>
             </div>

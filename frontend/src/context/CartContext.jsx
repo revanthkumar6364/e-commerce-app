@@ -1,10 +1,20 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useReducer, useEffect } from 'react';
+import { createContext, useReducer, useEffect, useState } from 'react';
 
 export const CartContext = createContext();
 
+const getInitialCart = () => {
+  try {
+    const stored = localStorage.getItem('cart');
+    return stored ? JSON.parse(stored) : [];
+  } catch (e) {
+    console.error("Failed to parse cart from local storage", e);
+    return [];
+  }
+};
+
 const initialState = {
-  items: JSON.parse(localStorage.getItem('cart')) || [],
+  items: getInitialCart(),
   total: 0,
 };
 
@@ -42,6 +52,11 @@ function cartReducer(state, action) {
 
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const openDrawer = () => setIsDrawerOpen(true);
+  const closeDrawer = () => setIsDrawerOpen(false);
+  const toggleDrawer = () => setIsDrawerOpen(prev => !prev);
 
   // Sync with localStorage
   useEffect(() => {
@@ -50,6 +65,7 @@ export function CartProvider({ children }) {
 
   const addItem = (product) => {
     dispatch({ type: 'ADD_ITEM', payload: product });
+    setIsDrawerOpen(true); // Auto-open drawer on add
   };
 
   const removeItem = (id) => {
@@ -68,7 +84,19 @@ export function CartProvider({ children }) {
   const total = state.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
   return (
-    <CartContext.Provider value={{ items: state.items, addItem, removeItem, updateQty, clearCart, total }}>
+    <CartContext.Provider value={{
+      items: state.items || [],
+      addItem,
+      removeItem,
+      updateQty,
+      clearCart,
+      total,
+      isDrawerOpen,
+      openDrawer,
+      closeDrawer,
+      toggleDrawer,
+      addToCart: addItem // Alias for compatibility
+    }}>
       {children}
     </CartContext.Provider>
   );

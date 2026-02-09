@@ -4,6 +4,7 @@ import { CartContext } from '../context/CartContext';
 import { products } from '../data/products';
 import { MEN_CATEGORIES } from '../data/categoryImages';
 import { ChevronLeft, ChevronRight, Zap } from 'lucide-react';
+import FadeInImage from '../components/FadeInImage';
 import './landing.css';
 
 // --- MEN'S HERO SLIDES ---
@@ -112,7 +113,7 @@ export default function MenLanding() {
                 <div className="hero-slides-wrapper" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                     {MEN_SLIDES.map((slide) => (
                         <div key={slide.id} className="hero-slide">
-                            <img src={slide.image} alt={slide.title} className="hero-img-desktop" />
+                            <FadeInImage src={slide.image} alt={slide.title} className="hero-img-desktop" />
                             <div className="hero-overlay-content">
                                 <h2 className="animate-fade-in-up">{slide.title}</h2>
                                 <p className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>{slide.subtitle}</p>
@@ -138,7 +139,7 @@ export default function MenLanding() {
                     {MEN_CATS.map(cat => (
                         <Link key={cat.id} to={cat.link} className="category-showcase-card">
                             <div className="category-showcase-img">
-                                <img src={cat.image} alt={cat.label} />
+                                <FadeInImage src={cat.image} alt={cat.label} />
                             </div>
                             <div className="category-showcase-label">
                                 <h3>{cat.label}</h3>
@@ -165,7 +166,7 @@ export default function MenLanding() {
                     {menDeals.map(p => (
                         <Link to={`/products/${p.id}`} key={p.id} className="deal-card">
                             <div className="deal-img-box">
-                                <img src={p.image} alt={p.title} />
+                                <FadeInImage src={p.image} alt={p.title} />
                                 <span className="deal-badge">{p.randomDiscount}% OFF</span>
                             </div>
                             <div className="deal-info">
@@ -188,7 +189,7 @@ export default function MenLanding() {
                     {MEN_BRANDS.map((brand, i) => (
                         <div key={i} className="brand-card">
                             <div className="brand-logo-area">
-                                <img src={brand.logo} alt={brand.name} className="brand-logo-img" />
+                                <FadeInImage src={brand.logo} alt={brand.name} className="brand-logo-img" />
                             </div>
                             <div className="brand-offer">
                                 {brand.offer}
@@ -203,20 +204,20 @@ export default function MenLanding() {
                 <h2 className="section-heading">TRENDING FOR HIM</h2>
                 <div className="trending-grid">
                     <Link to="/products?category=fashion&sub=Men" className="trend-item large">
-                        <img src="https://images.unsplash.com/photo-1516257984-b1b4d8c9230c?w=800&q=80" alt="Men Trending" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1516257984-b1b4d8c9230c?w=800&q=80" alt="Men Trending" />
                         <div className="trend-overlay">
                             <h3>URBAN CASUALS</h3>
                             <span>Starting ₹499</span>
                         </div>
                     </Link>
                     <Link to="/products?category=fashion&sub=Men" className="trend-item">
-                        <img src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&q=80" alt="Suits" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&q=80" alt="Suits" />
                         <div className="trend-overlay">
                             <h3>FORMAL EDIT</h3>
                         </div>
                     </Link>
                     <Link to="/products?category=fashion&sub=Men" className="trend-item">
-                        <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800&q=80" alt="Gym" />
+                        <FadeInImage src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800&q=80" alt="Gym" />
                         <div className="trend-overlay">
                             <h3>GYM WEAR</h3>
                         </div>

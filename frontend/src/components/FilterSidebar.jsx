@@ -47,6 +47,67 @@ export default function FilterSidebar({ filters, onFilterChange, onClearAll, dep
                     { name: 'Girls Clothing', value: 'Girls', count: 30 },
                     { name: 'Toys', value: 'Toys', count: 20 }
                 ];
+            case 'Home':
+                return [
+                    { name: 'Decor', value: 'Decor', count: 40 },
+                    { name: 'Bedding', value: 'Bedding', count: 30 },
+                    { name: 'Furniture', value: 'Furniture', count: 20 },
+                    { name: 'Lighting', value: 'Lighting', count: 25 },
+                    { name: 'Storage', value: 'Storage', count: 15 }
+                ];
+            case 'Beauty':
+                return [
+                    { name: 'Makeup', value: 'Makeup', count: 60 },
+                    { name: 'Skincare', value: 'Skincare', count: 55 },
+                    { name: 'Haircare', value: 'Haircare', count: 40 },
+                    { name: 'Fragrance', value: 'Fragrance', count: 30 },
+                    { name: 'Bath & Body', value: 'Bath & Body', count: 35 }
+                ];
+            case 'Skincare':
+                return [
+                    { name: 'Moisturizers', value: 'Moisturizers', count: 20 },
+                    { name: 'Serums', value: 'Serums', count: 15 },
+                    { name: 'Face Wash', value: 'Face Wash', count: 25 },
+                    { name: 'Sunscreen', value: 'Sunscreen', count: 10 },
+                    { name: 'Masks', value: 'Masks', count: 12 }
+                ];
+            case 'Makeup':
+                return [
+                    { name: 'Lipstick', value: 'Lipstick', count: 30 },
+                    { name: 'Foundation', value: 'Foundation', count: 20 },
+                    { name: 'Eyeliner', value: 'Eyeliner', count: 15 },
+                    { name: 'Mascara', value: 'Mascara', count: 10 },
+                    { name: 'Nail Polish', value: 'Nail Polish', count: 25 }
+                ];
+            case 'Haircare':
+                return [
+                    { name: 'Shampoo', value: 'Shampoo', count: 25 },
+                    { name: 'Conditioner', value: 'Conditioner', count: 20 },
+                    { name: 'Hair Oil', value: 'Hair Oil', count: 15 },
+                    { name: 'Serums', value: 'Serums', count: 10 },
+                    { name: 'Hair Color', value: 'Hair Color', count: 12 }
+                ];
+            case 'Fragrance':
+                return [
+                    { name: 'Men', value: 'Men', count: 40 },
+                    { name: 'Women', value: 'Women', count: 45 },
+                    { name: 'Kids', value: 'Kids', count: 10 },
+                    { name: 'Unisex', value: 'Unisex', count: 30 }
+                ];
+            case 'BathBody':
+                return [
+                    { name: 'Body Wash', value: 'Body Wash', count: 20 },
+                    { name: 'Body Scrub', value: 'Body Scrub', count: 15 },
+                    { name: 'Body Lotion', value: 'Body Lotion', count: 25 },
+                    { name: 'Soaps', value: 'Soaps', count: 30 }
+                ];
+            case 'Natural':
+                return [
+                    { name: 'Ayurvedic', value: 'Ayurvedic', count: 35 },
+                    { name: 'Organic', value: 'Organic', count: 30 },
+                    { name: 'Essential Oils', value: 'Essential Oils', count: 20 },
+                    { name: 'Herbal', value: 'Herbal', count: 25 }
+                ];
             default:
                 return [];
         }
@@ -137,7 +198,14 @@ export default function FilterSidebar({ filters, onFilterChange, onClearAll, dep
                         <div className="filter-search">
                             <input type="text" placeholder="Search for brands" />
                         </div>
-                        {['Roadster', 'HRX', 'Puma', 'Nike', 'Adidas', 'Zara', 'H&M', 'Levi\'s'].map(brand => (
+                        {(department === 'Home'
+                            ? ['IKEA', 'Home Centre', 'H&M Home', 'Bombay Dyeing', 'Milton', 'Prestige', 'D\'Decor', 'Spaces']
+                            : department === 'Fragrance'
+                                ? ['Chanel', 'Dior', 'Versace', 'Gucci', 'Calvin Klein', 'Tom Ford', 'Jo Malone', 'Davidoff']
+                                : ['Beauty', 'Skincare', 'Makeup', 'Haircare', 'BathBody', 'Natural'].includes(department)
+                                    ? ['MAC', 'Lakme', 'Maybelline', 'L\'Oreal', 'Clinique', 'The Body Shop', 'Nykaa', 'Forest Essentials']
+                                    : ['Roadster', 'HRX', 'Puma', 'Nike', 'Adidas', 'Zara', 'H&M', 'Levi\'s']
+                        ).map(brand => (
                             <label key={brand} className="filter-checkbox">
                                 <input
                                     type="checkbox"
@@ -235,25 +303,34 @@ export default function FilterSidebar({ filters, onFilterChange, onClearAll, dep
                 )}
             </div>
 
-            {/* Size Filter */}
+            {/* Size/Dimensions Filter */}
             <div className="filter-section">
                 <div
                     className="filter-section-header"
                     onClick={() => toggleSection('size')}
                 >
-                    <h4>SIZE</h4>
+                    <h4>{department === 'Home' ? 'DIMENSIONS' : ['Beauty', 'Skincare', 'Makeup', 'Haircare', 'Fragrance', 'BathBody', 'Natural'].includes(department) ? 'PACK SIZE' : 'SIZE'}</h4>
                     <span className={`arrow ${expandedSections.size ? 'up' : 'down'}`}>›</span>
                 </div>
                 {expandedSections.size && (
                     <div className="filter-options size-options">
-                        {sizeOptions.map(size => (
-                            <label key={size} className="size-option">
+                        {(department === 'Home'
+                            ? ['King', 'Queen', 'Double', 'Single', 'Standard', '4x6 ft', '6x9 ft']
+                            : ['Beauty', 'Skincare', 'Makeup', 'Haircare', 'Fragrance', 'BathBody', 'Natural'].includes(department)
+                                ? ['50ml', '100ml', '200ml', '10g', '20g', 'Single', 'Kit']
+                                : sizeOptions
+                        ).map(size => (
+                            <label key={size} className={['Home', 'Beauty', 'Skincare', 'Makeup', 'Haircare', 'Fragrance', 'BathBody', 'Natural'].includes(department) ? 'filter-checkbox' : 'size-option'}>
                                 <input
                                     type="checkbox"
                                     checked={filters.sizes?.includes(size)}
                                     onChange={() => handleFilterToggle('sizes', size)}
                                 />
-                                <span className="size-box">{size}</span>
+                                {['Home', 'Beauty', 'Skincare', 'Makeup', 'Haircare', 'Fragrance', 'BathBody', 'Natural'].includes(department) ? (
+                                    <span>{size}</span>
+                                ) : (
+                                    <span className="size-box">{size}</span>
+                                )}
                             </label>
                         ))}
                     </div>

@@ -137,9 +137,15 @@ export default function Wishlist() {
                 </div>
               </div>
             </div>
-            <button className="btn-move-bag" onClick={() => handleMoveToBag(item)}>
-              MOVE TO BAG
-            </button>
+            {item.inStock ? (
+              <button className="btn-move-bag" onClick={() => handleMoveToBag(item)}>
+                MOVE TO BAG
+              </button>
+            ) : (
+              <button className="btn-move-bag disabled" disabled>
+                OUT OF STOCK
+              </button>
+            )}
           </div>
         ))}
       </div>

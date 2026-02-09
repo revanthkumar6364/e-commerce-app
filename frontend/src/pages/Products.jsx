@@ -1,9 +1,11 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { products } from '../data/products';
 import { CartContext } from '../context/CartContext';
 import FilterSidebar from '../components/FilterSidebar';
 import Breadcrumbs from '../components/Breadcrumbs';
+import SkeletonProduct from '../components/SkeletonProduct';
 import { Heart, Star } from 'lucide-react';
 import './products-myntra.css';
 
@@ -16,6 +18,7 @@ export default function Products() {
   const brands = searchParams.get('brands') ? searchParams.get('brands').split(',') : [];
   const colors = searchParams.get('colors') ? searchParams.get('colors').split(',') : [];
   const discountThreshold = searchParams.get('discount') ? parseInt(searchParams.get('discount')) : null;
+  const [loading, setLoading] = useState(true);
 
   const [sortBy, setSortBy] = useState('recommended');
   const [wishlistIds, setWishlistIds] = useState(() => {
@@ -26,6 +29,14 @@ export default function Products() {
       return [];
     }
   });
+
+  // Simulate loading on mount or filter change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800); // 800ms simulated delay
+    return () => clearTimeout(timer);
+  }, [searchParams, sortBy]); // Re-trigger on filter/sort change
 
   const handleFilterChange = (filterType, value) => {
     const params = new URLSearchParams(searchParams);
@@ -72,7 +83,7 @@ export default function Products() {
     e.preventDefault();
     if (!checkLogin()) return;
     addItem(product);
-    alert(`✅ Added ${product.title} to cart`);
+    toast.success(`✅ Added ${product.title} to cart`);
   };
 
   const handleWishlist = (product, e) => {
@@ -173,7 +184,7 @@ export default function Products() {
           filters={{ brands, colors, discount: discountThreshold, categories: [], sizes: [] }}
           onFilterChange={handleFilterChange}
           onClearAll={handleClearAll}
-          department={subCategory || 'Men'}
+          department={subCategory || typeParam || (category === 'home' ? 'Home' : category === 'beauty' ? 'Beauty' : 'Men')}
         />
 
         {/* Main Content */}
@@ -201,50 +212,62 @@ export default function Products() {
 
           {/* Products Grid */}
           <div className="products-grid-myntra">
-            {filtered.map(product => {
-              const isWishlisted = wishlistIds.includes(product.id);
-              return (
-                <div key={product.id} className="product-card-myntra">
-                  <Link to={`/products/${product.id}`} className="product-card-link-myntra">
-                    <div className="product-card-image-myntra">
-                      <img src={product.image} alt={product.title} />
-                      {ratingCounts[product.id] > 3000 && (
-                        <div className="top-sales-badge">TOP SALES</div>
-                      )}
-                      <button
-                        className={`wishlist-btn-myntra ${isWishlisted ? 'active' : ''}`}
-                        onClick={(e) => handleWishlist(product, e)}
-                      >
-                        <Heart size={18} fill={isWishlisted ? '#ff3f6c' : 'none'} />
-                      </button>
-                      <button
-                        className="quick-add-myntra"
-                        onClick={(e) => handleAddToCart(product, e)}
-                      >
-                        ADD TO BAG
-                      </button>
-                    </div>
-                    <div className="product-card-details-myntra">
-                      <h3 className="product-brand-myntra">{product.brand}</h3>
-                      <p className="product-title-myntra">{product.title}</p>
-                      <div className="product-price-myntra">
-                        <span className="price-final">₹{product.price}</span>
-                        <span className="price-mrp">₹{product.mrp}</span>
-                        <span className="price-discount">
-                          ({Math.round(((product.mrp - product.price) / product.mrp) * 100)}% OFF)
-                        </span>
+            {loading ? (
+              // Skeleton Loading State
+              Array.from({ length: 8 }).map((_, idx) => (
+                <SkeletonProduct key={idx} />
+              ))
+            ) : filtered.length > 0 ? (
+              filtered.map(product => {
+                const isWishlisted = wishlistIds.includes(product.id);
+                return (
+                  <div key={product.id} className="product-card-myntra animate-fade-in-up">
+                    <Link to={`/products/${product.id}`} className="product-card-link-myntra">
+                      <div className="product-card-image-myntra">
+                        <img src={product.image} alt={product.title} />
+                        {ratingCounts[product.id] > 3000 && (
+                          <div className="top-sales-badge">TOP SALES</div>
+                        )}
+                        <button
+                          className={`wishlist-btn-myntra ${isWishlisted ? 'active' : ''}`}
+                          onClick={(e) => handleWishlist(product, e)}
+                        >
+                          <Heart size={18} fill={isWishlisted ? '#ff3f6c' : 'none'} />
+                        </button>
+                        <button
+                          className="quick-add-myntra"
+                          onClick={(e) => handleAddToCart(product, e)}
+                        >
+                          ADD TO BAG
+                        </button>
                       </div>
-                      <div className="product-rating-myntra">
-                        <span className="rating-num">4.2</span>
-                        <Star size={12} fill="#ff3f6c" stroke="#ff3f6c" />
-                        <span className="rating-separator">|</span>
-                        <span className="rating-count">{ratingCounts[product.id]}</span>
+                      <div className="product-card-details-myntra">
+                        <h3 className="product-brand-myntra">{product.brand}</h3>
+                        <p className="product-title-myntra">{product.title}</p>
+                        <div className="product-price-myntra">
+                          <span className="price-final">₹{product.price}</span>
+                          <span className="price-mrp">₹{product.mrp}</span>
+                          <span className="price-discount">
+                            ({Math.round(((product.mrp - product.price) / product.mrp) * 100)}% OFF)
+                          </span>
+                        </div>
+                        <div className="product-rating-myntra">
+                          <span className="rating-num">4.2</span>
+                          <Star size={12} fill="#ff3f6c" stroke="#ff3f6c" />
+                          <span className="rating-separator">|</span>
+                          <span className="rating-count">{ratingCounts[product.id]}</span>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </div>
-              );
-            })}
+                    </Link>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="no-products-myntra w-full col-span-full">
+                <h2>No Products Found</h2>
+                <p>Try adjusting your filters.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

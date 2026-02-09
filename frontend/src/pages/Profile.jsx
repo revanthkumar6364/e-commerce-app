@@ -15,7 +15,7 @@ export default function Profile({ user, logout }) {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isExchanging, setIsExchanging] = useState(false);
-  const [notifications, setNotifications] = useState([]);
+
   const [copiedId, setCopiedId] = useState(null);
 
   const [wallet, setWallet] = useState({
@@ -57,19 +57,7 @@ export default function Profile({ user, logout }) {
     }
   };
 
-  const fetchNotifications = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/user/notifications', {
-        headers: { 'user-id': '65c1a2b3e4b0c1a2b3e4b0c1' }
-      });
-      const data = await response.json();
-      if (data.success) {
-        setNotifications(data.notifications);
-      }
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    }
-  };
+
 
   const fetchOrders = async () => {
     try {
@@ -88,7 +76,6 @@ export default function Profile({ user, logout }) {
   useEffect(() => {
     fetchUserData();
     fetchOrders();
-    fetchNotifications();
   }, []);
 
   const handleEdit = () => setIsEditing(true);

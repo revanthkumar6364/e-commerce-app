@@ -28,7 +28,7 @@ export default function Concierge() {
         // 1. Bag Issue Follow-up (The "Loop")
         if (lastIntent === 'bag_issue' && lower.match(/no|not|fail|stuck|error|same|tried|didn't work/)) {
             return {
-                text: "I see the issue persists. Since refreshing didn't help, I've escalated this to Priority Tech Support. A live agent will check your session immediately. (Ticket #404-URBAN created)",
+                text: "I see the issue persists. Since refreshing didn't help, I've escalated this to Priority Tech Support. A live agent will check your session immediately.(Ticket #404-URBAN created)",
                 intent: 'support_escalated'
             };
         }
